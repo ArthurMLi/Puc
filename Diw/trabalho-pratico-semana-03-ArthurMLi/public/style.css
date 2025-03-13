@@ -1,0 +1,505 @@
+body {
+    margin: 0;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.header {
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    position: fixed;
+}
+
+/* Parte de cima do header*/
+
+header>div:first-child {
+    margin: 0 339.5px;
+    padding: 0 24px
+}
+
+header>div:first-child>nav {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.logo {
+    width: 188px;
+    padding-top: 10PX;
+}
+
+#searchBar {
+    width: 400px;
+    height: 45px;
+    border-radius: 40px;
+    border: 2px solid #00000034;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+}
+
+#searchBar>img {
+    margin-left: 10px;
+    height: 30px;
+
+}
+
+#searchBar>input:nth-child(2) {
+    height: 30px;
+    width: 360px;
+    border: 0px;
+    margin: 10px;
+}
+
+#botoesNav {
+    display: flex;
+    width: 250px;
+    font-size: 20px;
+}
+
+
+#botoesNav>div>a {
+    width: 90px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+#divLogar {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+
+}
+
+#divLogar>a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.btn-login div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.btn-login {
+    background: none;
+    border: none;
+    color: blue;
+    /* Muda a cor para azul (opcional) */
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#divLogar>a:first-child {
+    width: 100px;
+    height: 42px;
+    color: black;
+}
+
+.btn-login div {
+    width: 110px;
+    height: 42px;
+
+}
+
+
+.btn-login div {
+    background-color: black;
+    color: white;
+    border-radius: 40px;
+    font-size: 17px;
+}
+
+/* Parte de baixo do header*/
+
+
+header>div:nth-child(2) {
+    margin: 0;
+    height: 42px;
+    background-color: white;
+
+
+}
+
+header>div:nth-child(2)>div {
+    margin: 0 339.5px;
+    padding: 0 24px;
+    display: flex;
+
+}
+
+header>div:nth-child(2)>div>div {
+    margin: 4px 8px 4px 0px;
+    padding: 4px 4px 0px;
+    height: 38px;
+    display: flex;
+    justify-content: baseline;
+    align-self: baseline;
+}
+
+header>div:nth-child(2)>div>div>a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+
+}
+
+/* Conteudo main*/
+main {
+    width: 100%;
+    padding-top: 90px;
+    padding-bottom: 90px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+main>div:first-child {
+
+    font-size: 58px;
+    margin: 43px 339.5px 0px;
+    height: 65px;
+    padding: 0px 24px;
+}
+
+main>div:first-child>div:first-child {
+    display: flex;
+    justify-content: center;
+}
+
+main>div:nth-child(2) {
+    margin: 32px 0 16px;
+    padding: 0;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+}
+
+main>div:nth-child(2)>div {
+    display: flex;
+}
+
+main>div:nth-child(2)>div>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 8px;
+    padding: 4px 4px 0px;
+    font-size: 18px;
+}
+
+main>div:nth-child(2)>div>div>svg {
+    margin: 0px 4px 0px 0px;
+}
+
+main>div:nth-child(3) {
+    height: 60px;
+    margin: 0px 339.5px;
+    padding: 0px 24px;
+}
+
+main>div:nth-child(3)>div {
+    display: flex;
+    justify-content: center;
+}
+
+main>div:nth-child(3)>div>div {
+    height: 60px;
+    width: 800px;
+    border-radius: 40px;
+    border: 3px solid#00000034;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+main>div:nth-child(3)>div>div>img {
+    margin-left: 10px;
+}
+
+main>div:nth-child(3)>div>div>input {
+    height: 60px;
+    width: 670px;
+    border: 0;
+    margin: 10px;
+    font-size: 16px;
+}
+
+main>div:nth-child(3)>div>div>div {
+    height: 20px;
+    width: 49px;
+    margin-right: 10px;
+    background-color: #34E0A1;
+    padding: 14px 24px;
+    color: black;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30PX;
+}
+
+/* Div que terá os conteudos*/
+main>div:nth-child(4) {
+    margin: 64px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 1700px;
+
+}
+
+main>div:nth-child(4)>div:first-child {
+    margin: 0px 339.5px;
+    padding: 0px 24px;
+    height: 500px;
+    display: flex;
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child {
+    display: flex;
+    align-items: end;
+    width: 1136px;
+
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child>img {
+    height: 500px;
+    width: 1136px;
+    border-radius: 10px;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child>div {
+    padding: 96px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    color: white
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child>div>div:first-child {
+    font-size: 40px;
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child>div>div:nth-child(2) {
+    font-size: 20px;
+    margin: 0px 0px 8px;
+
+}
+
+main>div:nth-child(4)>div:first-child>div:first-child>div>div:nth-child(3) {
+    background-color: white;
+    color: black;
+    width: 96px;
+    height: 20px;
+    margin: 16px 0 0;
+    padding: 14px 24px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocoImagens {
+    margin: 0px 339.5px;
+    padding: 0px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: 347px;
+}
+
+.textoBlocoImagens {
+    height: 59px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tituloTextoBlocoImagens {
+    height: 29px;
+    margin: 0px 0px 4px;
+    font-size: 24px;
+}
+
+.tituloTextoBlocoImagens {
+    height: 22px;
+    font: 16px;
+    color: #333333
+}
+
+.divImagem {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    height: 272px;
+    width: 272px;
+}
+
+.imagem {
+    height: 272px;
+    width: 272px;
+    border-radius: 10px;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.8);
+
+}
+
+.imagens {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.tituloImagem {
+    padding: 32px 16px 16px;
+    width: 240px;
+    height: 28px;
+    font-size: 30px;
+    color: white;
+    /* Cor do texto */
+    text-shadow:
+        -2px -2px 0 black,
+        2px -2px 0 black,
+        -2px 2px 0 black,
+        2px 2px 0 black;
+}
+
+
+/*Footer*/
+footer {
+
+    background-color: #F2F2F2;
+    padding: 32px 0px 0px;
+    height: 270px;
+}
+
+footer>div:first-child {
+    height: 270px;
+    width: 1190px;
+    margin: 0px 339.5px;
+    padding: 0px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer>div:first-child>section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 220px;
+}
+
+footer>div:first-child>section>article {
+    height: 241px;
+    width: 176px;
+    display: flex;
+    flex-direction: row;
+}
+
+footer>div:first-child>section>article>ul>li {
+    font-size: 14px;
+    padding-top: 7px;
+    color: black;
+    text-decoration: none;
+    list-style: none;
+    font-weight: 550
+}
+
+footer>div:first-child>section>article>ul {
+    padding: 0;
+    margin: 0;
+}
+
+footer>div:first-child>section:first-child>article:last-child {
+    width: 368px;
+    height: 241px;
+}
+
+
+/*pop-up*/
+/* Fundo escuro ao abrir o pop-up */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+}
+
+/* Caixa do formulário de login */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+/* Botão de fechar */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Estilo do formulário */
+.popup h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.popup input {
+    width: 100%;
+    padding: 10px 0px 10px 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

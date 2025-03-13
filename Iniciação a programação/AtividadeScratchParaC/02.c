@@ -2,7 +2,6 @@
 int main(void){
     float base,altura,area;
     
-    //printf("Tarefa - Ex02. Desafio:Calculadora de Area de Triangulos");
     
     printf("Digite o valor da base:\n");
     scanf("%f",&base);
