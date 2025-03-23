@@ -2,7 +2,7 @@
 #include <stdio.h>
 int main(void)
 {
-    int n,total,j,i;
+    int n, total, j, i;
     char caracter;
     printf("Digite o tamanho do lado do quadrado:\n");
     scanf("%d", &n);
@@ -16,7 +16,6 @@ int main(void)
             printf("%c ", caracter);
         }
         printf("\n");
-    
     }
     return 0;
 }

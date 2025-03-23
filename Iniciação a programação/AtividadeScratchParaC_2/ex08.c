@@ -7,8 +7,8 @@ int main(void)
 
     for (i = 1; i <= 10; i++)
     {
-        total = n*i;
-        printf(" %d x  %d =   %d\n",n,i,total);
+        total = n * i;
+        printf(" %d x  %d =   %d\n", n, i, total);
     }
     return 0;
 }

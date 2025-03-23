@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main(void)
 {
-    int n, total, i,j;
+    int n, total, i, j;
     printf("Digite a altura do triangulo de estrelas:\n");
     scanf("%d", &n);
 
@@ -13,8 +13,7 @@ int main(void)
             printf("*");
             j++;
         }
-            printf("\n");
-        
+        printf("\n");
     }
     return 0;
 }

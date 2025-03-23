@@ -11,5 +11,6 @@ int main(void)
         n2 = n * 3;
         printf("O tripo de %d = %d\n", n, n2);
     }
+
     return 0;
 }
