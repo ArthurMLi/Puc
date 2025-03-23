@@ -7,3 +7,6 @@
 [submodule "Diw/trabalho-pratico-semana-01-ArthurMLi"]
 	path = Diw/trabalho-pratico-semana-01-ArthurMLi
 	url = https://github.com/ICEI-DIW/trabalho-pratico-semana-01-ArthurMLi.git
+[submodule "Diw/trabalho-pratico-semana-05-ArthurMLi"]
+	path = Diw/trabalho-pratico-semana-05-ArthurMLi
+	url = https://github.com/ICEI-DIW/trabalho-pratico-semana-05-ArthurMLi
