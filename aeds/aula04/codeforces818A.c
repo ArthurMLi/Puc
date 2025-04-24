@@ -1,31 +1,18 @@
-#include <stdio.h>
+
 
 /* Autor: Arthur Mendes Lima */
 
-int main(void)
-{
-    /* iniciação de variavel unsigned long long int pra conseguir receber o numero: 10¹² */
-    unsigned long long int n, k, certificado, diploma, nwinners;
-    scanf("%llu %llu", &n, &k);
+#include <stdio.h>
 
-    /* checar se a proporção de vitoriosos é maior que a quantidade de alunos */  
-    if (n <= k)
-    {
-        /* caso for maior e n ter vitoriosos */
-        nwinners = n;
+int main() {
+    long long n, k;
+    scanf("%lld %lld", &n, &k);
 
-        certificado = 0;
+    // Calcula o número máximo de diplomas possível
+    long long d = n / (2 * (k + 1));
+    long long c = k * d;
+    long long nw = n - d - c;
 
-        diploma = 0;
-    }
-    else
-    {
-        /* caso for menor e tiver vitoriosos */
-        nwinners = n / 2;
-        certificado = nwinners / (k + 1);
-        diploma = nwinners - certificado;
-    }
-
-    printf("%llu %llu %llu ", certificado, diploma, nwinners);
+    printf("%lld %lld %lld\n", d, c, nw);
     return 0;
 }
