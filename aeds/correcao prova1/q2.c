@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main(void)
 {
-    int i, n, npares =0, nimpares=0, resultado; //inicializar com 0
+    int i, n, npares = 0, nimpares = 0, resultado; // inicializar com 0
     scanf("%d", &n);
     while (n != 0)
     {
