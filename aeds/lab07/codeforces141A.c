@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+//Nome: Arthur Mendes Lima
 
 int main()
 {

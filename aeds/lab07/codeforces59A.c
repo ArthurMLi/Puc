@@ -1,4 +1,5 @@
 #include <stdio.h>
+//Nome: Arthur Mendes Lima
 
 int main() {
     char s[101];
