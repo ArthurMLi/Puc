@@ -1,0 +1,168 @@
+entrega final
+Introdução
+Nesse trabalho, vamos consolidar a jornada do semestre em uma aplicação completa somando algumas funcionalidades às entregas feitas até o momento. A evolução do nosso projeto está retratada na Figura a seguir.
+
+Fluxo - Trabalhos DIW - 2025-1.png
+
+Nessa etapa vamos integrar as seguintes funcionalidades:
+
+Já feito nas entregas anteriores
+responsividade com adaptação da aplicação para dispositivos móveis e desktops (entregue na semanas 4 e 5) 
+visualização de itens na home-page e página de detalhes do item (entregue nas semanas 7, 8 e 9)
+estrutura de dados persistida em JSON e exposta na forma de uma API Rest com o JSON Server (entregue na semana 11);
+cadastro de itens definidos para o projeto (entregue na semana 12);
+visualização avançada de mapa, gráfico ou calendário (entregue na semana 14).
+Novidades para essa etapa
+cadastro e login de usuário (código pronto aquiLinks to an external site.);
+(// Trabalho Interdisciplinar 1 - Aplicações Web
+//
+// Esse módulo implementa uma API RESTful baseada no JSONServer
+// O servidor JSONServer fica hospedado na seguinte URL
+// https://jsonserver.rommelpuc.repl.co/contatos
+//
+// Para montar um servidor para o seu projeto, acesse o projeto 
+// do JSONServer no Replit, faça o FORK do projeto e altere o 
+// arquivo db.json para incluir os dados do seu projeto.
+//
+// URL Projeto JSONServer: https://replit.com/@rommelpuc/JSONServer
+//
+// Autor: Rommel Vieira Carneiro
+// Data: 03/10/2023
+
+const jsonServer = require('json-server')
+const server = jsonServer.create()
+const router = jsonServer.router('./db/db.json')
+
+// Para permitir que os dados sejam alterados, altere a linha abaixo
+// colocando o atributo readOnly como false.
+const middlewares = jsonServer.defaults()
+
+server.use(middlewares)
+server.use(router)
+server.listen(3000, () => {
+  console.log('JSON Server está em execução!')
+}))
+pesquisa de itens (integrada à visualização da home-page);
+marcação de favoritos (ícone adicional colocado em cada item do site);
+página para visualizar os favoritos do usuário logado.
+Tudo isso conta com uma arquitetura muito próxima do que é feito em aplicações reais de mercado. Seguimos utilizando o JSON Server como plataforma para nossa aplicação que provê um front end e um back end baseado em API Rest.
+
+Você pode evoluir o código feito anteriormente nas atividades e no Trabalho Prático 1 ou começar um projeto do zero. Essa decisão fica a cargo de cada um, porém você deve seguir o wireframe que foi simplificado a partir do Trabalho Prático 1 e apresentar as funcionalidades que são apresentadas neste enunciado.
+
+ 
+
+Detalhamento do escopo
+O trabalho deve contemplar as telas e o fluxo de telas mostrados na Figura a seguir. Os detalhes do escopo são descritos logo na sequência do texto desse enunciado.  
+
+Wireframe - TP2 - 2025-1.png
+
+⚠️ IMPORTANTE: sua aplicação pode apresentar adaptações do layout dos wireframes da Figura e até funcionalidades adicionais, porém, o trabalho a ser entregue deve fornecer todas as funcionalidades como descritas e relacionadas a seguir.
+
+Tela 1 - Home-Page (index.html)
+A tela principal do site deve ser a primeira a ser exibida ao acessar o site sem informar qualquer caminho. Ou seja deve estar associada ao arquivo index.html. Essa tela deve apresentar o seguintes componentes: 
+
+Cabeçalho com logo identificando a identidade do site.
+Menu do site com links para:
+Tela de cadastro de itens (conforme tipo de projeto escolhido: notícias, filmes, eventos, receitas, lugares turísticos);
+Tela de favoritos do usuário logado (visível apenas se o usuário estiver logado);
+Tela ou popup de login (se o usuário não se identificou) ou funcionalidade de logout (se o usuário já estiver logado).
+Seção 1 - Carrossel (slider) de itens em destaque
+Deve apresentar os itens identificados como destaque mostrando foto, nome e descritivo em uma estrutura de carrossel (slider);
+Os dados dos itens devem ser obrigatoriamente obtidos a partir do servidor JSONServer;
+Deve ter botões para acessar os demais itens em destaque (próximo e anterior);
+Ao clicar em um item, deve-se direcionar o usuário para a tela de Detalhes do item;
+SUGESTÃO: use componente do bootstrap (detalhes no link)
+Seção 2 - Cards de itens com funcionalidade de pesquisa (novo) e com possibilidade de marcar favoritos
+Deve apresentar um grupo de cards com informações (pelo menos, imagem, nome e detalhes) dos itens cadastrados;
+Os dados dos itens devem ser obrigatoriamente obtidos a partir do servidor JSONServer;
+Ao informar um texto no campo de pesquisa e disparar a pesquisa, deve filtrar os itens cadastrados e mostrar apenas os itens cujo título ou descrição (ou ambos) possuam o texto pesquisado e, se limpar o campo de pesquisa, deve voltar a exibir todos os itens cadastrados;
+Cada item deve mostrar um ícone/botão que permita ao usuário logado marcar o item como favorito. Se o item já estiver configurado como favorito do usuário logado, deve ser apresentado de forma diferente dos demais itens ainda não marcados. Sugestão, utilizar um coração vazado para item não marcado e coração preenchido para item marcado como favorito.
+Ao clicar em um item, deve-se direcionar o usuário para a tela de Detalhes do item;
+SUGESTÃO: use componente do bootstrap (detalhes no link)
+Seção 3 - Visualização avançada
+Deve apresentar uma visualização que apresente um mapa, calendário ou gráfico associado e mostrando dados dos itens de forma diferente dos cards e do carrossel; 
+Os dados dos itens devem ser obrigatoriamente obtidos a partir do servidor JSONServer;
+Para mapas e calendários, ao clicar em um item, deve-se direcionar o usuário para a tela de Detalhes do item; 
+SUGESTÃO: use componente do bootstrap (detalhes no link)
+Seção 4 - Informações do autor
+Deve apresentar dados reais que descrevem o aluno autor do projeto (pelo menos nome completo, avatar/foto, minibio, curso, turma, dados de redes sociais) 
+ 
+
+Telas 2 e 3 - Login e Cadastro de Usuários
+A funcionalidade deve permitir ao usuário se identificar por meio de login e senha, confrontados com dados a serem mantidos em arquivo JSON administrado pelo JSON Server. Após identificação do usuário, a aplicação deve manter a informação do usuário logado na sessionStorage de tal forma que toda tela possa recuperar essa informação.
+
+A seguir, são apresentados outros detalhes para essa parte da aplicação:
+
+A aplicação deve ter controle da sessão do usuário logado de tal forma que uma vez informados login e senha corretos, a aplicação deve-se manter identificando o usuário logado por meio do sessionStorage. 
+A aplicação deve fornecer uma tela para permitir que novos usuários sejam cadastrados.
+O menu da aplicação deve refletir que o usuário já foi identificado: a opção de favoritos deve ficar visível e a opção de login deve ser substituída pelo logout.
+A seção de cards na home deve refletir que o usuário já foi identificado, mostrando o ícone de marcação preenchido (para itens favoritos) e vazado (para itens não marcados como favoritos).  
+⚠️ IMPORTANTE: O código para essa funcionalidade está disponível no ReplitLinks to an external site.. Basta incorporar o código à sua aplicação. Pode-se agregar novos campos ou outras funcionalidades no código fornecido para se adequar à sua aplicação. 
+
+ 
+
+Tela 4 - Cadastro de Itens (CRUD) e Menu de Cadastro
+A funcionalidade deve permitir que usuários identificados como administradores possam inserir novos itens no JSON mantido pelo JSONServer. Para isso, será necessário incluir um campo na estrutura de usuários do JSONServer que identifique o usuário como administrador.
+
+⚠️ IMPORTANTE: Não é necessário que a aplicação forneça funcionalidades para alterar um usuário para administrador. Pode-se fazer a edição manual do arquivo JSON marcando usuários como administrador. 
+
+A seguir, são apresentados outros detalhes para essa parte da aplicação:
+
+O menu da aplicação com a opção de cadastro deve ser exibida apenas para usuários marcados como administradores. Uma vez visível, ao clicar na opção, deve-se direcionar o usuário para a tela de cadastro de itens (CRUD) 
+A tela de cadastro deve permitir ao usuário administrador inserir novos itens, alterar, excluir e visualizar os itens existentes na estrutura JSON mantida no JSONServer. 
+O quadro abaixo, apresenta uma sugestão de estrutura de dados para os usuários que permite marcar um usuário como administrador por meio de um campo "admin" com valores true ou false.  
+
+  "usuarios": [
+    {
+      "id": "187cb7e5-e097-4224-8bc7-b610c855e2b1",
+      "login": "admin",
+      "senha": "123",
+      "nome": "Administrador do Sistema",
+      "email": "admin@abc.com",
+      "admin": true
+    },
+    {
+      "id": "ec37c83d-4b7f-458d-9e10-3fda7d37cd3e",
+      "login": "user",
+      "senha": "123",
+      "nome": "Usuario Comum",
+      "email": "user@abc.com",
+      "admin": false
+    }
+  ],
+⚠️ IMPORTANTE: Um código de exemplo de cadastro de contatos, similar ao que se espera para essa funcionalidade está disponível no ReplitLinks to an external site.. Pode-se utilizar a mesma estrutura de código disponibilizada no site do Replit fazendo as devidas alterações para o item correspondente ao projeto escolhido. 
+
+ 
+
+Tela 5 - Detalhes do Itens
+Esta funcionalidade deve permitir visualizar todos os detalhes associados ao item cadastrado e mantidos na estrutura de dados do JSONServer. 
+
+A seguir, são apresentados outros detalhes para essa parte da aplicação:
+
+O layout e a estrutura dessa funcionalidade dependem dos dados mantidos no seu projeto. O wireframe apresentado é apenas um exemplo e não reflete necessariamente a maneira como a funcionalidade deve ser implementada no seu projeto. 
+A funcionalidade deve mostrar um ícone para marcação do item como favorito. Deve refletir a condição de usuário já identificado, mostrando ícone preenchido (para itens favoritos) ou vazado (para itens não marcados como favoritos).  
+ 
+
+Entrega
+Você deve, OBRIGATORIAMENTE, enviar um arquivo compactado no formato ZIP com os arquivos necessários para a execução do site. A entrega do arquivo ZIP é obrigatória e deve conter uma estrutura similar a mostrada abaixo, conforme projeto JSONServer disponibilizado.
+
+/db
+   db.json           ------ Arquivo com as estruturas de dados e os respectivos dados da aplicação
+/public              ------ Pasta onde ficam os arquivos da parte frontend do projeto (SUGESTÃO DE ARQUIVOS)
+   index.html
+   cadastro_itens.html
+   detalhes.html
+   login.html
+   /assets
+       /css
+            styles.css
+       /img
+            img1.jpg
+            img2.jpg
+            img3.jpg
+       /scripts
+            app.js
+            login.js
+package.json        ------ Configuração do projeto, utilizado pelo node.js na parte de backend
+.gitignore          ------ Arquivo de configuração do git com lista de arquivos a serem ignorados 
+A orientação necessária para executar e testar o JSONServer e a parte de front end no seu próprio computador está disponível na forma de uma videoaula. Verifique para facilitar o processo de desenvolvimento. 

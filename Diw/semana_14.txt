@@ -1,0 +1,94 @@
+semana 14
+Apresentação dinâmica de dados
+A partir dos dados cadastrados na etapa anterior, vamos trabalhar formas de apresentação que representem de forma clara e interativa as informações do seu projeto. Você poderá usar gráficos (barra, linha, pizza), mapas, calendários ou outras formas de visualização. Seu desafio é entregar uma página Web que organize, processe e exiba os dados de forma compreensível e esteticamente agradável.
+
+Com base nos tipos de projetos escohidos, podemos propor visualizações que estimulem a interpretação, agrupamento e exibição criativa dos dados, trabalhando tanto a lógica quanto o design das nossas aplicações.
+
+Abaixo, são apresentadas sugestões de visualizações específicas para cada tipo de projeto, com ideias que podem ser realizadas com ferramentas acessíveis como FullCalendarLinks to an external site., Chart.jsLinks to an external site., MapboxLinks to an external site., para citar algumas.
+
+📰 Notícias
+Gráfico de barras com número de notícias por categoria: Ex: política, economia, cultura, esportes.  [Chart,js]
+Calendário com notícias por dia de publicação: Visualização das notícias do dia, tanto por mês como por lista. [FullCalendar]
+Mapa com local de origem das notícias (se houver localidade): Notícias por cidade ou país. [Mapbox]
+🎬 Filmes
+Gráfico de pizza por gênero: Distribuição de filmes por gênero (ação, comédia, drama…). [Chart,js]
+Gráfico de barras com avaliação média por ano ou por gênero: Útil se tiverem campos como nota e ano de lançamento. [Chart,js]
+Mapa com os locais dos filmes: Informando onde foram filmados ou o país de origem da produção. [Mapbox]
+🍽️ Receitas
+Gráfico de pizza mostrando o percentual de receitas por categoria culinária: Ex: doces, salgados, bebidas, massas.  [Chart,js]
+Gráfico de barras por tempo de preparo: Agrupar receitas por tempo (ex: até 30min, 1h…).  [Chart,js]
+Mapa  das receitas: Informação da localização típica ou origem da receita. [Mapbox]
+🏞️ Lugares Turísticos
+Mapa interativo com marcadores dos locais: Usar Mapbox. [Mapbox]
+Gráfico de barras com atrações por cidade ou país: Quantidade de pontos turísticos por região. [Chart,js]
+Gráfico de avaliação média por lugar: Visualizar os locais mais bem avaliados. [Chart,js]
+📅 Eventos
+Calendário interativo com datas dos eventos: Visualização dos eventos em um calendário. [FullCalendar]
+Gráfico de eventos por tipo (show, palestra, workshop…): Gráfico de pizza ou barras.   [Chart,js]
+Mapa com localização dos eventos: Especialmente útil se os eventos forem em diferentes cidades. [Mapbox]
+ 
+
+⚠️  Escolha uma entre as sugestões e monte uma apresentação dinâmica para os seus dados. As apresentações devem utilizar uma das opções de bibliotecas apresentadas na disciplina ou algo similar.
+
+ 
+
+Habilidades a serem trabalhadas
+Implementação de funcionalidades a partir de bibliotecas externas
+Manipulação de dados em estruturas JSON
+Manipulação de eventos para montagem dinâmica de páginas
+ 
+
+Conhecimento Envolvido
+Mapas e Mapbox
+Web API - Geolocation
+Biblioteca e API Mapbox
+Gráficos com Chart.js
+Gráficos com Chart.js
+Gráficos de Pizza com Chart.js e dados em JSON
+Gráficos de Barras empilhadas com Chart.js e dados em JSON
+Calendários com FullCalendar
+Calendários com JSON e FullCalendar.js
+ 
+
+Tarefas a serem realizadas
+Vamos seguir um processo gradativo de desenvolvimento com registro do passo a passo via commits e tags no repositório git e GitHub.
+
+Etapa 1 - Ambiente da etapa anterior
+
+Inicialmente, aceite a tarefa no GitHub Classroom (link fornecido pelo professor)
+Faça o clone do repositório em seu computador local
+Traga os arquivos do seu projeto anterior.
+⚠️ Faça um commit que informe na mensagem sobre a montagem do ambiente de desenvolvimento inicial.
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v1.0" (git tag -a v1.0 -m "chore: ambiente de desenvolvimento inicial do projeto") 
+ 
+
+Etapa 2 - Implementação de apresentação dinâmica
+
+Inclua uma página para a apresentação e faça a referência para a biblioteca a ser trabalhada (Mapbox, FullCalendar ou Chart.js). 
+Realize a implementação da apresentação dinâmica na nova página.
+Execute os testes e tire pelo menos dois PRINT da funcionalidade com dados diferentes manipulados por meio da funcionalidade de CRUD da etapa anterior.
+Inclua os prints no arquivo README.md que está na raiz do repositório.
+⚠️ Faça um commit que informe na mensagem a implementação da funcionalidade dinâmica.
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v2.0" (git tag -a v2.0 -m "feat: add funcionalidade [FUNCIONALIDADE]")
+ 
+
+Etapa 3 - Documentação do projeto
+
+Edite o arquivo README.md, coloque seus dados, os dados da funcionalidade com uma breve descrição e verifique se estão todos os prints solicitados para a documentação completa da entrega. 
+⚠️ Faça um commit que informe o fechamento do trabalho e alteração da documentação
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v3.0" (git tag -a v3.0 -m "docs: Alterações do README.md") 
+ 
+
+Para visualizar o resultado, submeta as alterações do repositório para o servidor do GitHub: git push origin main --tags
+
+Em seguida, submeta aqui nessa tarefa do Canvas a URL do seu repositório no GitHub
+
+ 
+
+Ferramentas empregadas
+Node.js (plataforma de execução JavaScript no servidor)
+JSON Server (servidor fake REST API)
+Bibliotecas Mapbox, FullCalendar e Chart.js
+Visual Studio Code (ou outro editor)
+Git/GitHub (controle de versão)
+GitHub Classroom (gerenciamento do repositório)

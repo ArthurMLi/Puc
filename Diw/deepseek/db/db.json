@@ -1,0 +1,236 @@
+{
+  "favoritos": [
+    {
+      "id": "91ca",
+      "usuarioId": "e675",
+      "noticiaId": "${noticia.id}",
+      "data": "2025-06-16T00:43:56.524Z"
+    },
+    {
+      "id": "446c",
+      "usuarioId": "e675",
+      "noticiaId": 1,
+      "data": "2025-06-16T01:42:20.019Z"
+    },
+    {
+      "id": "e4b6",
+      "usuarioId": "e675",
+      "noticiaId": 6,
+      "data": "2025-06-16T01:42:22.185Z"
+    },
+    {
+      "id": "64c5",
+      "usuarioId": "e675",
+      "noticiaId": 4,
+      "data": "2025-06-16T01:48:43.645Z"
+    },
+    {
+      "id": "7a98",
+      "usuarioId": "4077",
+      "noticiaId": 2,
+      "data": "2025-06-16T02:06:21.196Z"
+    }
+  ],
+  "noticias": [
+    {
+      "id": "1",
+      "titulo": "Prefeitura Lança Novo Plano de Mobilidade Urbana",
+      "descricao": "Novo plano visa melhorar o transporte público e reduzir o trânsito na cidade.",
+      "conteudo": "A Prefeitura apresentou nesta segunda-feira um novo plano de mobilidade urbana que inclui a criação de corredores exclusivos de ônibus, ciclovias e a requalificação de vias principais. O projeto será implementado ao longo dos próximos dois anos. O plano é resultado de um estudo detalhado sobre o fluxo de veículos e pessoas na cidade, e contou com a participação de especialistas em planejamento urbano e mobilidade. Entre as principais medidas, estão a criação de 50 km de novas ciclovias, a implantação de corredores exclusivos para ônibus em 10 vias principais e a ampliação das calçadas em áreas de grande circulação de pedestres. A expectativa é que o tempo médio de deslocamento na cidade seja reduzido em 25% nos próximos cinco anos.",
+      "categoria": "Cidades",
+      "autor": "Joana Ribeiro",
+      "destaque": true,
+      "data": "2025-03-30",
+      "imagem_principal": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Corredor exclusivo para ônibus"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Requalificação de calçadas"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "titulo": "Tecnologia 6G Está em Desenvolvimento",
+      "descricao": "Pesquisadores anunciam avanços na próxima geração de redes móveis.",
+      "conteudo": "Universidades e empresas de telecomunicação já estão testando tecnologias que poderão compor a infraestrutura do 6G. A expectativa é que a nova geração seja 100 vezes mais rápida que o 5G e amplie a integração entre dispositivos inteligentes. Os testes iniciais mostram que as velocidades de transmissão podem chegar a até 1 Tbps (terabit por segundo), permitindo o download de um filme em alta definição em menos de um segundo. Além da velocidade, a conexão 6G promete latência quase nula, o que possibilitará avanços significativos em áreas como carros autônomos, cirurgias remotas e realidade aumentada. O consórcio internacional responsável pelo desenvolvimento da tecnologia espera que as primeiras implementações comerciais ocorram a partir de 2030.",
+      "categoria": "Tecnologia",
+      "autor": "Carlos Mendes",
+      "destaque": false,
+      "data": "2025-03-28",
+      "imagem_principal": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Teste de rede 6G em laboratório"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Equipamentos para 6G"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "titulo": "Festival de Música Reúne Mais de 50 Mil Pessoas",
+      "descricao": "Evento cultural movimentou o final de semana com atrações nacionais e internacionais.",
+      "conteudo": "Durante três dias de programação, o festival contou com a participação de mais de 40 artistas e promoveu atividades culturais e gastronômicas em paralelo. A prefeitura estima um impacto positivo no turismo local. O evento, que ocorreu no Parque da Cidade, teve cinco palcos simultâneos com diferentes estilos musicais, atendendo a diversos gostos do público. Além dos shows, os participantes puderam visitar exposições de arte, oficinas de dança e gastronomia, com mais de 50 barracas de food trucks. A estimativa da organização é que o festival tenha movimentado cerca de R$ 15 milhões na economia local, incluindo hospedagem, alimentação e comércio. Devido ao sucesso, já foi anunciada uma nova edição para o próximo ano, com formato ampliado.",
+      "categoria": "Cultura",
+      "autor": "Ana Clara Silva",
+      "destaque": true,
+      "data": "2025-03-27",
+      "imagem_principal": "https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Público no festival"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Artista se apresentando"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "titulo": "Descoberta Nova Espécie de Planta na Amazônia",
+      "descricao": "Cientistas brasileiros identificam espécie com potencial medicinal.",
+      "conteudo": "Uma equipe de pesquisadores da Universidade Federal do Amazonas descobriu uma nova espécie de planta com propriedades medicinais na região norte do Brasil. Batizada de 'Amazonia curative', a planta possui compostos que podem ser utilizados no tratamento de inflamações crônicas. Estudos preliminares indicam que o extrato da planta pode reduzir significativamente processos inflamatórios em modelos laboratoriais. A descoberta é resultado de um projeto de bioprospecção que vem sendo desenvolvido há cinco anos na região. Os pesquisadores já solicitaram o registro de patente para a utilização do composto ativo em medicamentos e estão em negociação com empresas farmacêuticas para o desenvolvimento de novos tratamentos. A descoberta reforça a importância da preservação da biodiversidade da Amazônia e o potencial econômico da exploração sustentável dos recursos naturais.",
+      "categoria": "Ciência",
+      "autor": "Ricardo Oliveira",
+      "destaque": true,
+      "data": "2025-03-25",
+      "imagem_principal": "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Detalhe da nova espécie vegetal"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1598313183973-4effcded8d5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Pesquisadores em campo"
+        },
+        {
+          "id": 3,
+          "src": "https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Laboratório de análise"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "titulo": "Economia Local Cresce 4,5% no Primeiro Trimestre",
+      "descricao": "Setor de serviços lidera recuperação econômica após período de estagnação.",
+      "conteudo": "Os dados divulgados pela Secretaria de Desenvolvimento Econômico apontam um crescimento de 4,5% na economia local no primeiro trimestre deste ano em comparação ao mesmo período do ano anterior. O setor de serviços foi o principal responsável pelo desempenho positivo, com expansão de 6,2%. De acordo com o relatório, o comércio também apresentou bom desempenho, com crescimento de 5,1%, impulsionado principalmente pelas vendas online. Já a indústria teve um crescimento mais modesto, de 2,8%. O índice de emprego também mostrou recuperação, com a criação de 3.200 novos postos de trabalho no período. As projeções para o resto do ano são otimistas, com expectativa de crescimento anual próximo a 5%, o maior dos últimos cinco anos.",
+      "categoria": "Economia",
+      "autor": "Mariana Costa",
+      "destaque": false,
+      "data": "2025-03-22",
+      "imagem_principal": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Gráfico de crescimento econômico"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Centro comercial movimentado"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "titulo": "Nova Lei de Incentivo ao Esporte é Aprovada",
+      "descricao": "Legislação amplia recursos e facilita patrocínios para projetos esportivos.",
+      "conteudo": "O Congresso Nacional aprovou nesta semana a nova Lei de Incentivo ao Esporte, que aumenta o limite de dedução do Imposto de Renda para empresas que patrocinam projetos esportivos de 1% para 3%. A medida também simplifica o processo de aprovação de projetos e cria mecanismos para ampliar o acesso aos recursos por parte de pequenas associações esportivas. A expectativa é que os recursos destinados ao setor aumentem em até 200% nos próximos anos. A nova legislação também prevê a criação de um fundo nacional para o desenvolvimento de esportes olímpicos, com foco na formação de atletas de alto rendimento para competições internacionais. Representantes de confederações esportivas comemoraram a aprovação da lei, destacando que ela pode representar um marco para o desenvolvimento do esporte no país.",
+      "categoria": "Esportes",
+      "autor": "Paulo Souza",
+      "destaque": true,
+      "data": "2025-03-20",
+      "imagem_principal": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Votação no Congresso"
+        },
+        {
+          "id": 2,
+          "src": "https://images.unsplash.com/photo-1552667466-07770ae110d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Atletas celebrando aprovação"
+        },
+        {
+          "id": 3,
+          "src": "https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+          "descricao": "Centro de treinamento esportivo"
+        }
+      ]
+    },
+    {
+      "id": "e716",
+      "titulo": "asd",
+      "descricao": "asd",
+      "conteudo": "asd",
+      "categoria": "Cidades",
+      "autor": "asd",
+      "data": "11111-11-11",
+      "destaque": true,
+      "imagem_principal": "https://gru.ifsp.edu.br/images/phocagallery/galeria2/image03_grd.png",
+      "imagens_complementares": [
+        {
+          "id": 1,
+          "src": "https://gru.ifsp.edu.br/images/phocagallery/galeria2/image03_grd.png",
+          "descricao": "Imagem complementar"
+        }
+      ]
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "login": "admin",
+      "senha": "123",
+      "nome": "Administrador",
+      "email": "admin@example.com",
+      "admin": true
+    },
+    {
+      "id": "2",
+      "login": "usuario",
+      "senha": "123",
+      "nome": "Usuário Comum",
+      "email": "usuario@example.com",
+      "admin": false
+    },
+    {
+      "id": "e675",
+      "nome": "asd",
+      "email": "asd@gmail.com",
+      "login": "asd",
+      "senha": "asd",
+      "admin": false
+    },
+    {
+      "id": "4077",
+      "nome": "123",
+      "email": "123@gmail.com",
+      "login": "123",
+      "senha": "123",
+      "admin": false
+    }
+  ]
+}

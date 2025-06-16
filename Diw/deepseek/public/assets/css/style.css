@@ -1,0 +1,54 @@
+/* Estilos para favoritos */
+.btn-favorito {
+    transition: all 0.3s;
+}
+
+.btn-favorito:hover {
+    transform: scale(1.05);
+}
+
+/* Estilos para formulários */
+.form-control, .form-select {
+    margin-bottom: 1rem;
+}
+
+/* Estilos para tabela */
+.table-responsive {
+    margin-top: 1rem;
+}
+
+/* Estilos para cards */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Estilos para gráfico */
+.card-body canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}
+/* Adicione ao seu style.css */
+.btn-favorito .spinner-border {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.btn-favorito[disabled] {
+    opacity: 0.7;
+}
+
+.btn-favorito.btn-secondary {
+    cursor: not-allowed;
+}

@@ -1,0 +1,103 @@
+semana 12
+CRUD com JSONServer
+Nesta atividade, você irá completar o projeto anterior permitindo cadastrar e alterar dados da entidade principal do do seu projeto a partir da estrutura criada na etapa anterior com o JSONServer. 
+
+A aplicação consistirá de:
+
+Pasta public (REPRESENTAÇÃO DO FRONT END)
+Uma página inicial (index.html) que busca e exibe uma lista de itens a partir da API RESTful disponibilizada pelo JSON Server.
+Uma página de detalhes (detalhes.html) que, ao clicar em um item, buscará o item específico pelo id usando a API Fetch e exibirá as informações completas, incluindo os dados registrados pela página de cadastro.
+Uma página de cadastro (cadastro_[ENTIDADE].html), que deve mostrar um formulário para cadastrar a entidade principal do projeto. OBS: Troque [ENTIDADE] pelo nome da sua entidade principal.
+Pasta db (REPRESENTAÇÃO DO BACK END)
+Arquivo db.json com as estruturas de dados da aplicação no formato JSON.
+ 
+
+Habilidades a Serem Trabalhadas
+Implementação completa do ciclo CRUD com JavaScript e API Fetch.
+Manipulação de APIs RESTful com métodos GET, POST, PUT e DELETE.
+Testes de APIs com ferramentas de produtividade
+Validação de formulários no front-end.
+Atualização dinâmica da DOM.
+Uso das ferramentas do desenvolvedor do navegador (DevTools / Network).
+ 
+
+Conhecimento Envolvido
+Fundamentos do protocolo HTTP
+Videoaula - Protocolo HTTP - Introdução 
+Videoaula - Protocolo HTTP - Métodos
+Videoaula - Protocolo HTTP - Cabeçalhos
+Videoaula - Protocolo HTTP - Prática com ReqBin
+Uso de APIs RESTful
+APIs e Web Services (VIDEO)
+RESTful API (VIDEO)
+Usando APIs RESTful - Exemplos e Ferramentas (VIDEO)
+Usando APIs RESTful - Abordagens AJAX (VIDEO)
+Usando APIs RESTful - Aplicativo Cliente AJAX (VIDEO)
+Usando APIs RESTful - Entendendo a Assincronia (VIDEO)
+Recursos JSONServer
+Aplicação CRUD com JSONServer
+ 
+
+Tarefas a serem realizadas
+Vamos seguir um processo gradativo de desenvolvimento com registro do passo a passo via commits e tags no repositório git e GitHub.
+
+Etapa 1 - Layout da tela de cadastro (formulário e tabela)
+
+Inicialmente, aceite a tarefa no GitHub Classroom (link fornecido pelo professor)
+Faça o clone do repositório em seu computador local
+Traga os arquivos do seu projeto anterior e monte a tela de cadastro com o layout básico com o formulário e a tabela de exibição dos dados, ainda sem a dinâmica JavaScript.
+⚠️ Faça um commit que informe na mensagem sobre a montagem do ambiente de desenvolvimento inicial.
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v1.0" (git tag -a v1.0 -m "chore: ambiente de desenvolvimento inicial do projeto") 
+ 
+
+Etapa 2 - Implementação de testes com Postman ou software similar
+
+Monte a estrutura de dados em formato JSON no arquivo db.json (dentro da pasta db), conforme o projeto escolhido por você. 
+Instale algum aplicativo para testes de requisições como o Postman, ThunderClient ou Insomnia.
+Crie os testes de requisições de GET, POST, PUT e DELETE para a entidade principal do seu projeto.
+Execute os testes e tire um PRINT para cada um dos testes feitos com o resultado aparente.
+Inclua os prints no arquivo README.md que está na raiz do repositório.
+⚠️ Faça um commit que informe na mensagem a realização dos testes de requisições para a entidade da sua aplicação.
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v2.0" (git tag -a v2.0 -m "chore: Testes da API para a estrutura [ENTIDADE]")
+ 
+
+Etapa 3 - Implementação das funcionalidades de CRUD
+
+Monte a dinâmica das funcionalidades de CRUD de tal forma que seja possível visualizar os dados, criar novos registros, alterar e excluir, com um CRUD completo a partir do JSONServer. 
+Realize os devidos testes de funcionamento da aplicação com a nova dinâmica baseada no JSONServer.
+Tire um PRINT da tela das ferramentas do desenvolvedor na aba NETWORK mostrando uma requisição Fetch/XHR POST feita a partir do formulário com a confirmação de inserção do registro no arquivo db.json do JSONServer e inclua no arquivo README.md que está na raiz do repositório.
+⚠️ Faça um commit que informe a implementação da dinâmica de CRUD.
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v3.0" (git tag -a v3.0 -m "feat: dinâmica de CRUD para a [ENTIDADE] com JSONServer") 
+ 
+
+Etapa 4 - Documentação do projeto
+
+Edite o arquivo README.md, coloque seus dados e verifique se estão todos os prints solicitados para a documentação completa da entrega. 
+⚠️ Faça um commit que informe o fechamento do trabalho e alteração da documentação
+✅ Utilize o recurso de tags do git para marcar essa versão como a "v4.0" (git tag -a v4.0 -m "docs: Alterações do README.md") 
+ 
+
+Para visualizar o resultado, submeta as alterações do repositório para o servidor do GitHub: git push origin main --tags
+
+Em seguida, submeta aqui nessa tarefa do Canvas a URL do seu repositório no GitHub
+
+ 
+
+Ferramentas empregadas
+Node.js (plataforma de execução JavaScript no servidor)
+JSON Server (servidor fake REST API)
+Aplicativo de testes de APIs: Postman, Insomnia ou Thunder Client
+API Fetch (para consumo de API)
+Visual Studio Code (ou outro editor)
+Git/GitHub (controle de versão)
+GitHub Classroom (gerenciamento do repositório)
+ 
+
+Critérios de Avaliação
+Critério	Descrição
+Estrutura do projeto	Organização adequada das pastas (db/, public/)
+Implementação do CRUD	 Funcionamento completo das operações: Create, Read, Update e Delete
+Navegação entre páginas	Passagem correta de parâmetros via query string
+Estilização	Layout funcional, responsivo básico e visual agradável
+Controle de versão	Commits incrementais claros e tags nas etapas principais
+Documentação	README completo com prints e estrutura de dados JSON incluída
