@@ -1,0 +1,395 @@
+/* Definindo variáveis CSS para cores e valores reutilizáveis */
+:root {
+    --color-primary: #34E0A1;
+    --color-dark: #333333;
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-light-gray: #F2F2F2;
+    --color-medium-gray: #666666;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-gradient-dark: rgba(0, 0, 0, 0.8);
+    --color-gradient-light: rgba(0, 0, 0, 0);
+    
+    --font-primary: "PT Sans", sans-serif;
+    --border-radius-small: 0.625rem;
+    --border-radius-large: 2.5rem;
+    --header-height: 6.375rem;
+    --shadow-default: 0 0.25rem 0.5rem var(--color-shadow);
+}
+
+/* Estilos base */
+body {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-style: normal;
+    padding-top: var(--header-height);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-white);
+    z-index: 1000;
+    box-shadow: var(--shadow-default);
+}
+
+.logo {
+    max-width: 11.75rem;
+    height: auto;
+}
+
+/* Layout Flexbox */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Barra de busca */
+.searchBar-wrapper {
+    max-width: 25rem;
+    width: 100%;
+}
+
+.searchBar {
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+}
+
+.searchBar input {
+    border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0;
+    height: 2.813rem;
+}
+
+.searchBar .input-group-text {
+    border-radius: var(--border-radius-large) 0 0 var(--border-radius-large);
+}
+
+/* Botões de navegação */
+.botoesNav {
+    margin-right: 0.938rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.botoesNav .nav-link {
+    font-size: 1.125rem;
+    color: var(--color-dark);
+    padding: 0.5rem 0.938rem;
+}
+
+.divLogar {
+    display: flex;
+    align-items: center;
+}
+
+.divLogar a {
+    color: var(--color-dark);
+    text-decoration: none;
+}
+
+.btn-login {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-login div {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-radius: var(--border-radius-large);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login div:hover {
+    background-color: var(--color-dark);
+}
+
+/* Menu de categorias */
+.category-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.625rem 0;
+    margin-bottom: 0;
+}
+
+.category-nav .nav-link {
+    color: var(--color-dark);
+    font-size: 1rem;
+    padding: 0.313rem 0.938rem 0.313rem 0;
+}
+
+/* Título principal */
+.main-title h1 {
+    font-size: 2.625rem;
+    font-weight: 700;
+    color: var(--color-dark);
+}
+
+/* Botões de categoria */
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.category-btn {
+    border-radius: 1.875rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    margin: 0.313rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.category-btn:hover {
+    transform: translateY(-0.125rem);
+}
+
+/* Barra de pesquisa principal */
+.main-search {
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    height: 3.75rem;
+}
+
+.main-search input {
+    height: 3.75rem;
+    font-size: 1rem;
+}
+
+.search-btn {
+    background-color: var(--color-primary);
+    color: var(--color-black);
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.search-btn:hover {
+    background-color: #2bc88d;
+}
+
+/* Banner principal */
+.hero-banner {
+    max-height: 31.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.25rem;
+    background: linear-gradient(to top, var(--color-gradient-dark) 0%, var(--color-gradient-light) 100%);
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.hero-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.625rem;
+}
+
+.hero-content p {
+    font-size: 1rem;
+    margin-bottom: 0.938rem;
+}
+
+.hero-btn {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    border-radius: var(--border-radius-large);
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    transition: transform 0.3s ease;
+    align-self: flex-start;
+}
+
+.hero-btn:hover {
+    transform: translateY(-0.25rem);
+}
+
+/* Grid de destinos */
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.destination-card {
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+    height: 100%;
+    box-shadow: var(--shadow-default);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.destination-card:hover {
+    transform: translateY(-0.313rem);
+}
+
+.destination-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%; 
+    background: linear-gradient(to top, var(--color-gradient-dark) 0%, var(--color-gradient-light) 100%);
+    pointer-events: none;
+    border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+}
+
+.img-caption {
+    position: absolute;
+    bottom: 0.938rem;
+    left: 0.938rem;
+    color: var(--color-white);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-shadow: 0.063rem 0.063rem 0.188rem rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-light-gray);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+    padding-top: 3.125rem;
+}
+
+footer h5 {
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+}
+
+.footer-link {
+    color: var(--color-medium-gray);
+    text-decoration: none;
+    display: block;
+    padding: 0.188rem 0;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--color-dark);
+    text-decoration: underline;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+    from { transform: translateY(1.25rem); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hero-banner, .destination-card {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.section-title, .category-buttons {
+    animation: slideInFromBottom 0.8s ease-out;
+}
+
+/* Media queries */
+@media (min-width: 48rem) {
+    .main-title h1 {
+        font-size: 3.625rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.25rem;
+    }
+
+    .img-caption {
+        font-size: 1.5rem;
+    }
+    
+    footer {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 47.938rem) {
+    body {
+        padding-top: 5rem;
+    }
+    
+    .header {
+        height: auto;
+    }
+    
+    .logo {
+        max-width: 9.375rem;
+    }
+    
+    .searchBar-wrapper {
+        margin: 0.625rem 0;
+    }
+    
+    .divLogar {
+        margin-top: 0.625rem;
+    }
+    
+    .main-search {
+        height: auto;
+    }
+    
+    .main-search input,
+    .search-btn {
+        height: 3.125rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    footer {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-buttons .btn {
+        width: 100%;
+        margin: 0.2rem 0;
+    }
+}
+
+/* Imagens */
+.destination-card img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div>
+            <nav>
+                <img class="logo"
+                    src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                    alt="Tripadvisor">
+                <section id="searchBar">
+                    <img src="Resources\lupa.png" alt="">
+                    <input type="search" placeholder="Buscar">
+                </section>
+                <div id=botoesNav>
+                    <div><a href=""><span>Descobrir</span></a></div>
+                    <div><a href=""><span>Viagens</span></a></div>
+                    <div><a href=""><span>Avaliar</span></a></div>
+                </div>
+                <div id="divLogar">
+                    <a href="">
+                        <div>botao lingua</div>
+                    </a>
+                    <button class="btn-login" onclick="openPopup()">
+                        <div>Login</div>
+                    </button>
+
+                </div>
+            </nav>
+        </div>
+        <div>
+            <div>
+                <div><a href="">Hotéis</a></div>
+                <div><a href="">O que fazer</a></div>
+                <div><a href="">Restaurantes</a></div>
+                <div><a href="">Voos</a></div>
+                <div><a href="">Cruzeiros</a></div>
+                <div><a href="">Locação de veículos</a></div>
+                <div><a href="">Fóruns</a></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div>
+            <div>Aonde você quer ir?</div>
+        </div>
+        <div>
+            <div>
+                <div><svg viewBox="0 0 24 24" width="24px" height="24px" class="d Vb egaXP UmNoP" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11.889 3.542a.25.25 0 0 0-.278 0l-8 5.333a.25.25 0 0 0-.111.208v10.465c0 .138.112.25.25.25h16a.25.25 0 0 0 .25-.25V9.083a.25.25 0 0 0-.111-.208zm-1.11-1.248a1.75 1.75 0 0 1 1.942 0l8 5.333c.487.325.779.871.779 1.456v10.465a1.75 1.75 0 0 1-1.75 1.75h-16A1.75 1.75 0 0 1 2 19.548V9.083c0-.585.292-1.131.78-1.456z">
+                        </path>
+                    </svg> Pesquisar tudo</div>
+                <div><svg viewBox="0 0 24 24" width="24px" height="24px" class="d Vb egaXP UmNoP" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M22 12.5V20h-4.5v-3h-11v3H2V6.25a2.25 2.25 0 0 1 4.5 0v6.25zM5 6.25a.75.75 0 0 0-1.5 0V18.5H5v-3h14v3h1.5V14H5z">
+                        </path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12 10.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5 2a2 2 0 1 0 0-4 2 2 0 0 0 0 4"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11 7h5.6a5.4 5.4 0 0 1 5.4 5.4V14H11zm9.241 4A3.9 3.9 0 0 0 16.6 8.5h-4.1v4h8v-.1a3.9 3.9 0 0 0-.259-1.4">
+                        </path>
+                    </svg>Hotéis</div>
+                <div><svg viewBox="0 0 24 24" width="24px" height="24px" class="d Vb egaXP UmNoP" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M7.56 7.5H3.75a.25.25 0 0 0-.25.25v10c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25v-10a.25.25 0 0 0-.25-.25h-3.81l-2-2H9.56zM8.94 4h6.12l2 2h3.19c.966 0 1.75.784 1.75 1.75v10a1.75 1.75 0 0 1-1.75 1.75H3.75A1.75 1.75 0 0 1 2 17.75v-10C2 6.784 2.784 6 3.75 6h3.19z">
+                        </path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12 9.25a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5M7.75 12a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0">
+                        </path>
+                    </svg>O que fazer</div>
+                <div><svg viewBox="0 0 24 24" width="24px" height="24px" class="d Vb egaXP UmNoP" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M14.051 6.549v.003l1.134 1.14 3.241-3.25.003-.002 1.134 1.136-3.243 3.252 1.134 1.14a1 1 0 0 0 .09-.008c.293-.05.573-.324.72-.474l.005-.006 2.596-2.603L22 8.016l-2.597 2.604a3.73 3.73 0 0 1-1.982 1.015 4.3 4.3 0 0 1-3.162-.657l-.023-.016-.026-.018-1.366 1.407 8.509 8.512L20.219 22l-.002-.002-6.654-6.663-2.597 2.76-7.3-7.315C1.967 8.948 1.531 6.274 2.524 4.198c.241-.504.566-.973.978-1.386l8.154 8.416 1.418-1.423-.039-.045c-.858-1.002-1.048-2.368-.62-3.595a4.15 4.15 0 0 1 .983-1.561L16 2l1.135 1.138-2.598 2.602-.047.045c-.16.151-.394.374-.433.678zM3.809 5.523c-.362 1.319-.037 2.905 1.06 4.103L10.93 15.7l1.408-1.496zM2.205 20.697 3.34 21.84l4.543-4.552-1.135-1.143z">
+                        </path>
+                    </svg>Restaurantes</div>
+                <div><svg viewBox="0 0 24 24" width="24px" height="24px" class="d Vb egaXP UmNoP" aria-hidden="true">
+                        <path
+                            d="m9.412 22.286-7.63-7.89 1.87-1.87 3.39.6c.08 0 .5 0 .73-.21l2.15-2.08c.02-.05.04-.13.04-.16 0-.02-.07-.1-.26-.19l-7.2-3.32 2.74-2.68 8.83 1.59c.2.02.49.02.62 0l3.21-3.24c.86-.78 2.58-1.75 3.76-.58 1.17 1.17.24 2.88-.49 3.71l-3.16 3.23c-.02.06-.05.24.01.61l1.52 8.83-2.7 2.43-3.29-6.84a.5.5 0 0 0-.18-.14l-2.49 2.33s-.01.15.01.3l.55 3.62-2.04 1.95zm-5.53-7.87 5.57 5.75.4-.38-.43-2.85c-.16-1.04.25-1.5.51-1.68l2.42-2.24c.45-.42.91-.46 1.2-.43.73.08 1.18.69 1.27.81l.06.1 2.45 5.1.59-.54-1.38-8.01c-.21-1.22.19-1.75.44-1.96l3.09-3.15c.25-.29.89-1.26.53-1.63-.36-.36-1.36.32-1.66.6l-3.27 3.29c-.47.45-1.35.42-1.83.35l-8.1-1.45-.63.62 5.21 2.4c.73.33.99.82 1.08 1.17.2.75-.23 1.38-.28 1.45l-.09.11-2.24 2.17c-.78.71-1.85.62-1.96.6l-2.67-.47-.27.27z">
+                        </path>
+                    </svg>Voos</div>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <div>
+                    <img src="Resources\lupa.png" alt="" height="30">
+                    <input type="search" placeholder="Lugares para ir,o que fazer,hotéis...">
+                    <div>Buscar</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div>
+                    <img srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/47/7a/96/caption.jpg?w=1200&amp;h=-1&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/47/7a/96/caption.jpg?w=2400&amp;h=-1&amp;s=1 2x"
+                        src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/47/7a/96/caption.jpg?w=1200&amp;h=-1&amp;s=1"
+                        width="1200" height="672" alt="" loading="lazy">
+                    <div>
+                        <div>Planeje sua viagem do seu jeito</div>
+                        <div>Salve seus favoritos, cire itinerários e muito mais com o Viagens.</div>
+                        <div>Comece aqui</div>
+                    </div>
+                </div>
+            </div>
+            <div class="blocoImagens">
+                <div class="textoBlocoImagens">
+                    <div class="tituloTextoBlocoImagens">Explore as praias mais deslumbrantes do mundo</div>
+                    <div>Praias vencedoras do Travellers’ Choice – Os melhores dos melhores de 2025</div>
+                </div>
+                <div class="imagens">
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=300&amp;h=-1&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=600&amp;h=-1&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=300&amp;h=-1&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Mundo</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/7b/caption.jpg?w=300&amp;h=-1&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/7b/caption.jpg?w=600&amp;h=-1&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/7b/caption.jpg?w=300&amp;h=-1&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Europa</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/f6/caption.jpg?w=300&amp;h=-1&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/f6/caption.jpg?w=600&amp;h=-1&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/f6/caption.jpg?w=300&amp;h=-1&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Asia</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=300&amp;h=-1&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=600&amp;h=-1&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=300&amp;h=-1&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Pacífico Sul</span>
+                    </div>
+                </div>
+            </div>
+            <div class="blocoImagens">
+                <div class="textoBlocoImagens">
+                    <div class="tituloTextoBlocoImagens">Sonhe com sua próxima viagem</div>
+                    <div>Viagens de fim de semana saindo de Belo Horizonte</div>
+                </div>
+                <div class="imagens">
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/33/f4/3d/caption.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/33/f4/3d/caption.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/33/f4/3d/caption.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Rio de Janeiro</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/68/99/7a/panorama-da-praia.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/68/99/7a/panorama-da-praia.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/68/99/7a/panorama-da-praia.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Europa</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/a1/95/18/vista-do-balneario-da.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/a1/95/18/vista-do-balneario-da.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/a1/95/18/vista-do-balneario-da.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Asia</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/c9/a3/93/cachoeira-veu-das-noivas.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/c9/a3/93/cachoeira-veu-das-noivas.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/c9/a3/93/cachoeira-veu-das-noivas.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Pacífico Sul</span>
+                    </div>
+                </div>
+            </div>
+            <div class="blocoImagens">
+                <div class="textoBlocoImagens">
+                    <div class="tituloTextoBlocoImagens">Os melhores destinos para suas próximas férias</div>
+                    <div>Veja aonde outros viajantes estão indo</div>
+                </div>
+                <div class="imagens">
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Roma, Itália</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Paris,França</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/34/2d/28/caption.jpg?w=300&amp;h=300&amp;s=1&amp;cx=662&amp;cy=604&amp;chk=v1_8984ddf3493edfb8c896 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/34/2d/28/caption.jpg?w=600&amp;h=600&amp;s=1&amp;cx=662&amp;cy=604&amp;chk=v1_8984ddf3493edfb8c896 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/34/2d/28/caption.jpg?w=300&amp;h=300&amp;s=1&amp;cx=662&amp;cy=604&amp;chk=v1_8984ddf3493edfb8c896"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Las Vegas,NV</span>
+                    </div>
+                    <div class="divImagem"><img
+                            srcset="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/84/4d/17/caption.jpg?w=300&amp;h=300&amp;s=1 1x,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/84/4d/17/caption.jpg?w=600&amp;h=600&amp;s=1 2x"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/84/4d/17/caption.jpg?w=300&amp;h=300&amp;s=1"
+                            class="imagem" alt="" loading="lazy">
+                        <span class="tituloImagem">Reykjavik, Islândia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <section>
+                <article>
+                    <ul>
+                        <li>Sobre o Tripadvisor</li>
+                        <li>Quem somos</li>
+                        <li>Imprensa</li>
+                        <li>Recursos e políticas</li>
+                        <li>Carreiras</li>
+                        <li>Segurança e confiança</li>
+                        <li>Fale conosco</li>
+                        <li>Política de acessibilidade </li>
+                    </ul>
+                </article>
+
+                <article>
+                    <ul>
+                        <li>Explore</li>
+                        <li>Faça uma avaliação</li>
+                        <li>Adicione um local</li>
+                        <li>Inscreva-se</li>
+                        <li>Travellers' Choice</li>
+                        <li>Central de ajuda</li>
+                        <li>Histórias de viagem</li>
+                    </ul>
+                </article>
+                <article>
+                    <ul>
+                        <li>Faça negócios conosco</li>
+                        <li>Proprietários</li>
+                        <li>Pacote Premium</li>
+                        <li>Anúncios patrocinados</li>
+                        <li>Anuncie conosco</li>
+                        <li>Acesse nossa API de conteúdo
+                    </ul>
+                    </li>
+                </article>
+                <article></article>
+                <article>
+                    <ul>
+                        <li>Sites do Tripadvisor</li>
+                        <li>Reserve nos melhores restaurantes com TheFork</li>
+                        <li>Compre ingressos de excursões e atrações na Viator</li>
+                    </ul>
+                </article>
+            </section>
+            <div><img class="HAOGn F0"
+                    src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_logoset_solid_green.svg" alt=""
+                    width="50px" height="50px" loading="lazy"></div>
+        </div>
+    </footer>
+
+    <!-- Fundo escuro -->
+    <div class="overlay" onclick="closePopup()"></div>
+
+    <!-- Pop-up do login -->
+    <div class="popup">
+        <span class="close-btn" onclick="closePopup()">x</span>
+        <h2>Login</h2>
+        <form onsubmit="closePopup()">
+            <input type="text" placeholder="Usuário" required>
+            <input type="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
+<script>
+    function openPopup() {
+        document.querySelector(".popup").style.display = "block";
+        document.querySelector(".overlay").style.display = "block";
+    }
+
+    function closePopup() {
+        document.querySelector(".popup").style.display = "none";
+        document.querySelector(".overlay").style.display = "none";
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Evita o recarregamento da página
+        alert("Login enviado!");
+        closePopup();
+    }
+</script>

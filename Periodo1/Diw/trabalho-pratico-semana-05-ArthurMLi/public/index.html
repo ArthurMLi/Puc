@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripAdvisor</title>
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img class="logo img-fluid"
+                            src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                            alt="Tripadvisor">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <form class="d-flex me-auto searchBar-wrapper">
+                            <div class="input-group searchBar">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="search" class="form-control border-start-0" placeholder="Buscar">
+                            </div>
+                        </form>
+                        
+                        <ul class="navbar-nav mb-2 mb-lg-0 botoesNav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Descobrir</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Viagens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Avaliar</a>
+                            </li>
+                        </ul>
+                        
+                        <div class="divLogar d-flex align-items-center">
+                            <a href="#" class="me-2">
+                                <i class="fas fa-globe"></i>
+                            </a>
+                            <button class="btn-login" onclick="openPopup()">
+                                <div>Login</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="container-fluid border-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav category-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Hotéis</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">O que fazer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Restaurantes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Voos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Cruzeiros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Locação de veículos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Fóruns</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 text-center main-title">
+                    <h1>Aonde você quer ir?</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="row justify-content-center category-buttons">
+                        <div class="col-auto mb-2">
+                            <button class="btn btn-outline-secondary category-btn">
+                                <i class="fas fa-home me-2"></i> Pesquisar tudo
+                            </button>
+                        </div>
+                        <div class="col-auto mb-2">
+                            <button class="btn btn-outline-secondary category-btn">
+                                <i class="fas fa-hotel me-2"></i> Hotéis
+                            </button>
+                        </div>
+                        <div class="col-auto mb-2">
+                            <button class="btn btn-outline-secondary category-btn">
+                                <i class="fas fa-camera me-2"></i> O que fazer
+                            </button>
+                        </div>
+                        <div class="col-auto mb-2">
+                            <button class="btn btn-outline-secondary category-btn">
+                                <i class="fas fa-utensils me-2"></i> Restaurantes
+                            </button>
+                        </div>
+                        <div class="col-auto mb-2">
+                            <button class="btn btn-outline-secondary category-btn">
+                                <i class="fas fa-plane me-2"></i> Voos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="input-group main-search">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="search" class="form-control border-start-0" 
+                               placeholder="Lugares para ir, o que fazer, hotéis...">
+                        <button class="btn search-btn">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-5">
+                        <div class="hero-banner position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100"
+                                src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/47/7a/96/caption.jpg?w=1200&amp;h=-1&amp;s=1"
+                                alt="Banner principal">
+                            <div class="hero-content">
+                                <h2>Planeje sua viagem do seu jeito</h2>
+                                <p>Salve seus favoritos, crie itinerários e muito mais com o Viagens.</p>
+                                <button class="btn hero-btn">Comece aqui</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mb-5">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h2 class="section-title">Explore as praias mais deslumbrantes do mundo</h2>
+                        <p>Praias vencedoras do Travellers' Choice – Os melhores dos melhores de 2025</p>
+                    </div>
+                </div>
+                <div class="destination-grid">
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=600&amp;h=-1&amp;s=1"
+                            alt="Praias do Mundo">
+                        <span class="img-caption">Mundo</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/7b/caption.jpg?w=600&amp;h=-1&amp;s=1"
+                            alt="Praias da Europa">
+                        <div><span class="img-caption">Europa</span></div>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/50/f6/caption.jpg?w=600&amp;h=-1&amp;s=1"
+                            alt="Praias da Ásia">
+                        <span class="img-caption">Ásia</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c1/4f/f7/caption.jpg?w=600&amp;h=-1&amp;s=1"
+                            alt="Praias do Pacífico Sul">
+                        <span class="img-caption">Pacífico Sul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mb-5">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h2 class="section-title">Sonhe com sua próxima viagem</h2>
+                        <p>Viagens de fim de semana saindo de Belo Horizonte</p>
+                    </div>
+                </div>
+                <div class="destination-grid">
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/33/f4/3d/caption.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Rio de Janeiro">
+                        <span class="img-caption">Rio de Janeiro</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/68/99/7a/panorama-da-praia.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Europa">
+                        <span class="img-caption">Europa</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/a1/95/18/vista-do-balneario-da.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Ásia">
+                        <span class="img-caption">Ásia</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/c9/a3/93/cachoeira-veu-das-noivas.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Pacífico Sul">
+                        <span class="img-caption">Pacífico Sul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mb-5">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h2 class="section-title">Os melhores destinos para suas próximas férias</h2>
+                        <p>Veja aonde outros viajantes estão indo</p>
+                    </div>
+                </div>
+                <div class="destination-grid">
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Roma, Itália">
+                        <span class="img-caption">Roma, Itália</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c9/6c/08/caption.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Paris, França">
+                        <span class="img-caption">Paris, França</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/34/2d/28/caption.jpg?w=600&amp;h=600&amp;s=1&amp;cx=662&amp;cy=604&amp;chk=v1_8984ddf3493edfb8c896"
+                            alt="Las Vegas, NV">
+                        <span class="img-caption">Las Vegas, NV</span>
+                    </div>
+                    <div class="destination-card position-relative">
+                        <img class="img-fluid rounded w-100"
+                            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/84/4d/17/caption.jpg?w=600&amp;h=600&amp;s=1"
+                            alt="Reykjavik, Islândia">
+                        <span class="img-caption">Reykjavik, Islândia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-light pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Sobre o Tripadvisor</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Quem somos</a></li>
+                        <li><a href="#" class="footer-link">Imprensa</a></li>
+                        <li><a href="#" class="footer-link">Recursos e políticas</a></li>
+                        <li><a href="#" class="footer-link">Carreiras</a></li>
+                        <li><a href="#" class="footer-link">Segurança e confiança</a></li>
+                        <li><a href="#" class="footer-link">Fale conosco</a></li>
+                        <li><a href="#" class="footer-link">Política de acessibilidade</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Explore</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Faça uma avaliação</a></li>
+                        <li><a href="#" class="footer-link">Adicione um local</a></li>
+                        <li><a href="#" class="footer-link">Inscreva-se</a></li>
+                        <li><a href="#" class="footer-link">Travellers' Choice</a></li>
+                        <li><a href="#" class="footer-link">Central de ajuda</a></li>
+                        <li><a href="#" class="footer-link">Histórias de viagem</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Faça negócios conosco</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Proprietários</a></li>
+                        <li><a href="#" class="footer-link">Pacote Premium</a></li>
+                        <li><a href="#" class="footer-link">Anúncios patrocinados</a></li>
+                        <li><a href="#" class="footer-link">Anuncie conosco</a></li>
+                        <li><a href="#" class="footer-link">Acesse nossa API de conteúdo</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Sites do Tripadvisor</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Reserve nos melhores restaurantes com TheFork</a></li>
+                        <li><a href="#" class="footer-link">Compre ingressos de excursões e atrações na Viator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row mt-4 pb-4">
+                <div class="col-12 text-center">
+                    <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_logoset_solid_green.svg" 
+                         alt="Tripadvisor logo" width="50" height="50">
+                    <p class="mt-2 text-muted">&copy; 2025 Tripadvisor LLC. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Usuário" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" placeholder="Senha" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        
+        function openPopup() {
+            loginModal.show();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Login enviado!');
+            loginModal.hide();
+        });
+    </script>
+</body>
+</html>
