@@ -27,6 +27,7 @@ static public void main(String[] args){
     } 
         s = myObj.nextLine();
     }
+    myObj.close();
 }
 }
 
