@@ -1,0 +1,47 @@
+🔋 Alimentação e Proteção
+
+eletrogate 1x Conversor DC-DC Step Down LM2596 (entrada 12V, saída ajustável 5V / 2A) https://www.eletrogate.com/modulo-regulador-de-tensao-step-down-lm2596?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant&gad_source=1&gad_campaignid=20223015315&gclid=CjwKCAjwpOfHBhAxEiwAm1SwEtaakAZGOsRxvBR2QhXhVn161vCGJpoylEjgcaA1XkWxh_Oqb97gchoCfAQQAvD_BwE
+
+tem q ver se precisa 1x Fusível automotivo tipo lâmina – 1A
+
+tem q ver se precisa  1x Porta-fusível inline (para fusível tipo lâmina)
+
+arrumar 2m Fio automotivo vermelho 18 AWG (alimentação positiva)
+
+arrumar 2m Fio automotivo preto 18 AWG (terra)
+
+eletrogate 1x Diodo 1N4007 (proteção contra inversão de polaridade)
+
+🧠 Controle Lógico (Arduino)
+
+tenho 1x Arduino Nano (ou Uno) – 5V
+
+tenho 1x Protoboard pequena (170 pontos)
+
+tem q ver se precisa 1x Resistor 10 kΩ (1/4W)
+
+tem q ver se precisa1x Resistor 15 kΩ (1/4W)
+
+tem q ver se precisa 5x Jumpers macho–fêmea (para conexões)
+
+tenho 3x Jumpers macho–macho (para ligação na protoboard)
+
+⚙️ Acionamento (Relés e controle remoto)
+
+eletrogate 1x Módulo de 2 relés 5V opto-isolado (modelo SRD-05VDC-SL-C)
+
+arrumar 2x Fios finos (28–30 AWG) para soldar nos botões do controle remoto
+
+tem ou compra outro 1x Controle remoto original do portão (modificado para acionamento pelos relés)
+
+🔌 Conexões Elétricas
+
+4x Conectores faston ou terminais automotivos (para encaixar no chicote do carro)
+
+2x Abraçadeiras plásticas pequenas (para fixar chicote)
+
+eletrogate 1x Termorretrátil (diâmetro 2mm e 4mm)
+
+1x Fita isolante automotiva (alta temperatura)
+
+1x Caixa plástica pequena (para proteger Arduino e relés)
