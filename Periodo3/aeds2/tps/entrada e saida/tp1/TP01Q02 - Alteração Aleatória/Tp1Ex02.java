@@ -1,5 +1,5 @@
 import java.util.*;
-public class Tp2Ex02{
+public class Tp1Ex02{
     public static void main(String[] args) {
         Random generator = new Random();
         generator.setSeed(4);

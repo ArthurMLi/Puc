@@ -3,10 +3,24 @@
 int main()
 {
     char s1[50], s2[50];
-    while (scanf("%s %s", s1, s2) != EOF)
+    while (1)
     {
+        int leitura = scanf("%s", s1);
+        if (leitura == EOF)
+        {
+            break;
+        }
+        if (s1[0] == 'F' && s1[1] == 'I' && s1[2] == 'M' && s1[3] == '\0')
+        {
+            break;
+        }
+        if (scanf("%s", s2) == EOF)
+        {
+            break;
+        }
         int len1 = 0, len2 = 0;
         int resp = 0;
+        int letras[256];
         while (s1[len1] != '\n' && s1[len1] != '\0')
         {
             len1++;
@@ -37,13 +51,24 @@ int main()
                 }
 
             }
-            
-            for (int i = 0; i < len1 / 2; i++)
+
+            for (int i = 0; i < 256; i++)
             {
-                
-                if (s1[i] != s2[len2 - 1 - i])
+                letras[i] = 0;
+            }
+
+            for (int i = 0; i < len1; i++)
+            {
+                letras[(char)s1[i]]++;
+                letras[(char)s2[i]]--;
+            }
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (letras[i] != 0)
                 {
                     resp = 1;
+                    break;
                 }
             }
         }

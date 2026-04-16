@@ -11,11 +11,11 @@ int main()
     for (fgets(s1, sizeof(s1), stdin); condicaoDeParada != 1; fgets(s1, sizeof(s1), stdin))
     {
         int len = 0;
-        while (s1[len] != '\n' && s1[len] != '\0')
+        while (s1[len] != '\n' && s1[len] != '\r' && s1[len] != '\0')
         {
             len++;
         }
-        if (s1[len] == '\n')
+        if (s1[len] == '\n' || s1[len] == '\r')
         {
             s1[len] = '\0';
         }
@@ -27,9 +27,9 @@ int main()
                 temp++;
             }
         }
-        if (temp == 3)
-        {   break;
-            condicaoDeParada = 1;
+        if (temp == 3 && s1[3] == '\0')
+        {
+            break;
         }
         else
         {
