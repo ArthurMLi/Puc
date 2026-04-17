@@ -1,8 +1,11 @@
 // Pinos de saida dos 4 bits do resultado (F3..F0).
 int pinos[4] = {13, 12, 11, 10};
 
-// Memoria de instrucoes da maquina (ate 100 instrucoes XYZ).
-int memoria[100];
+// Tamanho maximo da memoria de instrucoes (facil de ajustar em um unico ponto).
+const int TAM_MEMORIA = 100;
+
+// Memoria de instrucoes da maquina (ate TAM_MEMORIA instrucoes XYZ).
+int memoria[TAM_MEMORIA];
 
 // Quantidade atual de instrucoes carregadas na memoria.
 int tamMemoria = 0;
@@ -94,7 +97,7 @@ void processarToken(String token) {
   // Permite colar tudo junto: ex. C6BA3EA34D35
   if (soHex(token) && token.length() % 3 == 0) {
     for (int i = 0; i < token.length(); i += 3) {
-      if (tamMemoria >= 100) {
+      if (tamMemoria >= TAM_MEMORIA) {
         avisarMemoriaCheia();
         return;
       }
@@ -105,14 +108,23 @@ void processarToken(String token) {
     return;
   }
 
-  Serial.print("Comando invalido: ");
-  Serial.println(token);
+  if (token.length() == 3 && !instrucaoValida(token)) {
+    erro("Instrucao invalida (use 3 digitos hex, ex: C6B): " + token);
+    return;
+  }
+
+  if (soHex(token) && token.length() % 3 != 0) {
+    erro("Bloco hex invalido: quantidade de digitos nao e multiplo de 3: " + token);
+    return;
+  }
+
+  erro("Comando invalido: " + token + " | Use: XYZ, RUN, DUMP ou RESET");
 }
 
 // Carrega uma unica instrucao XYZ na memoria.
 // Se lotar, mostra aviso e ignora novas instrucoes.
 void carregarInstrucao(String s) {
-  if (tamMemoria < 100) {
+  if (tamMemoria < TAM_MEMORIA) {
     memoriaCheiaAvisada = false;
     memoria[tamMemoria] = parseInstrucao(s);
     tamMemoria++;
@@ -126,14 +138,20 @@ void carregarInstrucao(String s) {
 // Mostra aviso de memoria cheia uma unica vez por ciclo de carga.
 void avisarMemoriaCheia() {
   if (!memoriaCheiaAvisada) {
-    Serial.println("Memoria cheia. Apenas as 100 primeiras instrucoes foram carregadas.");
+    erro("Memoria cheia. Apenas as " + String(TAM_MEMORIA) + " primeiras instrucoes foram carregadas.");
     memoriaCheiaAvisada = true;
   }
 }
 
+// Mostra erros com um prefixo padrao no monitor serial.
+void erro(String mensagem) {
+  Serial.print("ERRO: ");
+  Serial.println(mensagem);
+}
+
 // Limpa memoria, registradores e LEDs (estado inicial da maquina).
 void limpar() {
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < TAM_MEMORIA; i++) {
     memoria[i] = 0;
   }
   reg[0] = 0;
@@ -150,7 +168,7 @@ void limpar() {
 // escreve nos LEDs, faz dump e espera 4 segundos.
 void executar() {
   if (tamMemoria == 0) {
-    Serial.println("Nenhuma instrucao carregada.");
+    erro("Nenhuma instrucao carregada.");
     return;
   }
 
