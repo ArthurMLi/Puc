@@ -3,25 +3,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TP02Q01 {
+public class TP02Q04 {
 
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         ColecaoRestaurantes colecao = new ColecaoRestaurantes();
-        colecao.lerCsv("/tmp/restaurantes.csv");
+        colecao.lerCsv("../restaurantes.csv");
 
+        colecao.ordenar();
         int tam = colecao.getTamanho();
         Restaurante restaurantes[] = colecao.getRestaurantes();
         int idPesquisado = sc.nextInt();
         while (idPesquisado != -1) {
-			for (int i = 0; i < tam; i++) {
-				if (restaurantes[i].getId() == idPesquisado) {
-					System.out.println(restaurantes[i].formatar());
-					i = tam;
-				}
-			}
-			idPesquisado = sc.nextInt();
-		}
+            for (int i = 0; i < tam; i++) {
+                if (restaurantes[i].getId() == idPesquisado) {
+                    System.out.println(restaurantes[i].formatar());
+                    i = tam;
+                }
+            }
+            idPesquisado = sc.nextInt();
+        }
 
     }
 
@@ -41,6 +42,42 @@ public class TP02Q01 {
 
         public Restaurante[] getRestaurantes() {
             return restaurantes;
+        }
+
+        public void ordenar() {
+
+            for (int i = 0; i < tamanho - 1; i++) {
+                int menoridx = i;
+                for (int j = i + 1; j < tamanho; j++) {
+                    for (int k = 0; k < restaurantes[j].cidade.length(); k++) {
+                        if (k > restaurantes[menoridx].cidade.length()) {
+                            break;
+                        } else {
+
+                            if (restaurantes[j].cidade.charAt(k) < restaurantes[menoridx].cidade.charAt(k)) {
+                                menoridx = j;
+                                k = restaurantes[j].cidade.length();
+                            } else {
+                                if (restaurantes[j].cidade.charAt(k) > restaurantes[menoridx].cidade.charAt(k)) {
+                                    k = restaurantes[j].cidade.length();
+                                }
+                            }
+                        }
+                    }
+
+                }
+                swap(menoridx, i);
+            }
+
+        }
+
+        private void swap(int a, int b) {
+            Restaurante temp = restaurantes[a];
+            restaurantes[a] = restaurantes[b];
+            restaurantes[b] = temp;
+            int id = restaurantes[a].id;
+            restaurantes[a].id = restaurantes[b].id;
+            restaurantes[b].id = id;            
         }
 
         public void lerCsv(String path) {
@@ -220,7 +257,7 @@ public class TP02Q01 {
         public static Restaurante parseRestaurante(String s) {
             Scanner sc = new Scanner(s);
             sc.useDelimiter(",");
-			sc.useLocale(java.util.Locale.US);
+            sc.useLocale(java.util.Locale.US);
             int id = sc.nextInt();
             String nome = sc.next();
             String cidade = sc.next();
@@ -329,7 +366,8 @@ public class TP02Q01 {
         }
 
         public String formatar() {
-            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao + " ## [";
+            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao
+                    + " ## [";
 
             for (int i = 0; i < tiposCozinha.length; i++) {
                 temp += tiposCozinha[i];
@@ -344,7 +382,8 @@ public class TP02Q01 {
                 temp += "$";
             }
 
-            temp += " ## " + horarioAbertura.formatar() + "-" + horarioFechamento.formatar() + " ## " + dataAbertura.formatar()
+            temp += " ## " + horarioAbertura.formatar() + "-" + horarioFechamento.formatar() + " ## "
+                    + dataAbertura.formatar()
                     + " ## " + aberto + "]";
 
             return temp;
