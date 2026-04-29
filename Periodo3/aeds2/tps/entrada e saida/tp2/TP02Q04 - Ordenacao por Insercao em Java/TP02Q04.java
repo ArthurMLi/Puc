@@ -1,35 +1,65 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class TP02Q04 {
 
+    private static final String MATRICULA = "885134";
+
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-        ColecaoRestaurantes colecao = new ColecaoRestaurantes();
-        colecao.lerCsv("../restaurantes.csv");
 
-        colecao.ordenar();
-        int tam = colecao.getTamanho();
-        Restaurante restaurantes[] = colecao.getRestaurantes();
-        int idPesquisado = sc.nextInt();
-        while (idPesquisado != -1) {
-            for (int i = 0; i < tam; i++) {
-                if (restaurantes[i].getId() == idPesquisado) {
-                    System.out.println(restaurantes[i].formatar());
-                    i = tam;
-                }
-            }
-            idPesquisado = sc.nextInt();
+        ColecaoRestaurantes base = new ColecaoRestaurantes();
+        base.lerCsv("/tmp/restaurantes.csv");
+
+        ColecaoRestaurantes selecionados = lerEntradas(base, sc);
+
+        long inicio = System.nanoTime();
+        selecionados.insercaoPorCidade();
+        long fim = System.nanoTime();
+        double tempoMs = (fim - inicio) / 1_000_000.0;
+
+        escreverLog(selecionados.comparacoes, selecionados.movimentacoes, tempoMs);
+
+        Restaurante[] restaurantes = selecionados.getRestaurantes();
+        for (int i = 0; i < selecionados.getTamanho(); i++) {
+            System.out.println(restaurantes[i].formatar());
         }
 
+        sc.close();
+    }
+
+    private static ColecaoRestaurantes lerEntradas(ColecaoRestaurantes base, Scanner sc) {
+        ColecaoRestaurantes selecionados = new ColecaoRestaurantes();
+        int id = sc.nextInt();
+        while (id != -1) {
+            Restaurante encontrado = base.pesquisarRestaurante(id);
+            if (encontrado != null) {
+                selecionados.inserirRestaurante(encontrado);
+            }
+            id = sc.nextInt();
+        }
+
+        return selecionados;
+    }
+
+    private static void escreverLog(long comparacoes, long movimentacoes, double tempoMs) {
+        String nomeArquivo = MATRICULA + "_insercao.txt";
+        try (PrintWriter pw = new PrintWriter(nomeArquivo)) {
+            pw.printf("%s\t%d\t%d\t%.3f%n", MATRICULA, comparacoes, movimentacoes, tempoMs);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Nao foi possivel criar o arquivo de log", e);
+        }
     }
 
     static class ColecaoRestaurantes {
 
         private int tamanho;
         private Restaurante[] restaurantes;
+        long comparacoes;
+        long movimentacoes;
 
         public ColecaoRestaurantes() {
             this.tamanho = 0;
@@ -44,40 +74,49 @@ public class TP02Q04 {
             return restaurantes;
         }
 
-        public void ordenar() {
-
-            for (int i = 0; i < tamanho - 1; i++) {
-                int menoridx = i;
-                for (int j = i + 1; j < tamanho; j++) {
-                    for (int k = 0; k < restaurantes[j].cidade.length(); k++) {
-                        if (k > restaurantes[menoridx].cidade.length()) {
-                            break;
-                        } else {
-
-                            if (restaurantes[j].cidade.charAt(k) < restaurantes[menoridx].cidade.charAt(k)) {
-                                menoridx = j;
-                                k = restaurantes[j].cidade.length();
-                            } else {
-                                if (restaurantes[j].cidade.charAt(k) > restaurantes[menoridx].cidade.charAt(k)) {
-                                    k = restaurantes[j].cidade.length();
-                                }
-                            }
-                        }
-                    }
-
-                }
-                swap(menoridx, i);
+        void inserirRestaurante(Restaurante r){
+            Restaurante[] novo = new Restaurante[tamanho + 1];
+            for(int i = 0; i < tamanho; i++) {
+                novo[i] = restaurantes[i];
             }
+            novo[tamanho] = r;
+            restaurantes = novo;
+            tamanho++;
 
         }
 
-        private void swap(int a, int b) {
-            Restaurante temp = restaurantes[a];
-            restaurantes[a] = restaurantes[b];
-            restaurantes[b] = temp;
-            int id = restaurantes[a].id;
-            restaurantes[a].id = restaurantes[b].id;
-            restaurantes[b].id = id;            
+        Restaurante pesquisarRestaurante(int id) {
+            for (int i = 0; i < tamanho; i++) {
+                if (restaurantes[i].id == id) {
+                    return restaurantes[i];
+                }
+            }
+            return null;
+        }
+
+        public void insercaoPorCidade() {
+            comparacoes = 0;
+            movimentacoes = 0;
+
+            for (int i = 1; i < tamanho; i++) {
+                Restaurante tmp = restaurantes[i];
+                int j = i - 1;
+
+                while (j >= 0) {
+                    comparacoes++;
+                    if (restaurantes[j].getCidade().compareTo(tmp.getCidade()) > 0) {
+                        restaurantes[j + 1] = restaurantes[j];
+                        movimentacoes++;
+                        j--;
+                    } else {
+                        break;
+                    }
+                }
+
+                restaurantes[j + 1] = tmp;
+                movimentacoes++;
+            }
+
         }
 
         public void lerCsv(String path) {
@@ -270,7 +309,7 @@ public class TP02Q04 {
             Hora horarioAbertura = Hora.parseHora(temp[0]);
             Hora horarioFechamento = Hora.parseHora(temp[1]);
             Data dataAbertura = Data.parseData(sc.next());
-            boolean aberto = sc.next().trim().equals("true");
+            boolean aberto = sc.next().trim().compareTo("true") == 0;
             sc.close();
 
             return new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco,

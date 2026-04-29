@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+static const char *MATRICULA = "885134";
 
 // data
 typedef struct
@@ -138,7 +141,7 @@ void formatar_restaurante(restaurante *restaurante, char *buffer)
     char data[11];
     char tipos[500] = "";
     int tipos_tam = 0;
-    char faixa_preco[6]; 
+    char faixa_preco[6];
     formatar_hora(&restaurante->horario_abertura, abertura);
     formatar_hora(&restaurante->horario_fechamento, fechamento);
     formatar_data(&restaurante->data_abertura, data);
@@ -159,7 +162,6 @@ void formatar_restaurante(restaurante *restaurante, char *buffer)
         faixa_preco[i] = '$';
     }
     faixa_preco[restaurante->faixa_preco] = '\0';
-    
 
     sprintf(buffer,
             "[%d ## %s ## %s ## %d ## %.1f ## [%s] ## %s ## %s-%s ## %s ## %s]\n",
@@ -260,25 +262,139 @@ colecao_restaurantes *ler_csv()
     return colecao;
 }
 
-int main()
+restaurante *buscar_por_id(colecao_restaurantes *colecao, int id)
 {
-    colecao_restaurantes *colecao = ler_csv();
-    int id;
-
-    while (scanf("%d", &id), id != -1)
+    for (int i = 0; i < colecao->tamanho; i++)
     {
-        for (int i = 0; i < colecao->tamanho; i++)
+        if (colecao->restaurantes[i]->id == id)
         {
-            if (colecao->restaurantes[i]->id == id)
-            {
-                char s[1024];
-                formatar_restaurante(colecao->restaurantes[i], s);
-                printf("%s", s);
-                break;
-            }
+            return colecao->restaurantes[i];
         }
     }
-    free_colecao(colecao);
-    free(colecao);
+    return NULL;
+}
 
+colecao_restaurantes *ler_entradas(colecao_restaurantes *base)
+{
+    colecao_restaurantes *selecionados = (colecao_restaurantes *)malloc(sizeof(colecao_restaurantes));
+    if (selecionados == NULL)
+    {
+        return NULL;
+    }
+
+    selecionados->tamanho = 0;
+    selecionados->restaurantes = NULL;
+
+    int id;
+    while (scanf("%d", &id) == 1 && id != -1)
+    {
+        restaurante *item = buscar_por_id(base, id);
+        if (item == NULL)
+        {
+            continue;
+        }
+
+        restaurante **novo_vetor = (restaurante **)realloc(
+            selecionados->restaurantes,
+            (selecionados->tamanho + 1) * sizeof(restaurante *));
+
+        if (novo_vetor == NULL)
+        {
+            free(selecionados->restaurantes);
+            free(selecionados);
+            return NULL;
+        }
+
+        selecionados->restaurantes = novo_vetor;
+        selecionados->restaurantes[selecionados->tamanho] = item;
+        selecionados->tamanho++;
+    }
+
+    return selecionados;
+}
+
+void swap(colecao_restaurantes *colecao, int a, int b, long long *movimentacoes)
+{
+    if (a == b)
+    {
+        return;
+    }
+
+    restaurante *tmp = colecao->restaurantes[a];
+    (*movimentacoes)++;
+    colecao->restaurantes[a] = colecao->restaurantes[b];
+    (*movimentacoes)++;
+    colecao->restaurantes[b] = tmp;
+    (*movimentacoes)++;
+}
+void selecao_por_nome(colecao_restaurantes *colecao, long long *comparacoes, long long *movimentacoes)
+{
+    for (int i = 0; i < colecao->tamanho - 1; i++)
+    {
+        int menoridx = i;
+        for (int j = (i + 1); j < colecao->tamanho; j++)
+        {
+            (*comparacoes)++;
+            if (strcmp(colecao->restaurantes[j]->nome, colecao->restaurantes[menoridx]->nome) < 0)
+            {
+                menoridx = j;
+            }
+        }
+        swap(colecao, menoridx, i, movimentacoes);
+    }
+}
+
+void escrever_log(long long comparacoes, long long movimentacoes, double tempo_ms)
+{
+    char nome_arquivo[64];
+    snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_selecao.txt", MATRICULA);
+
+    FILE *arquivo = fopen(nome_arquivo, "w");
+    if (arquivo == NULL)
+    {
+        return;
+    }
+
+    fprintf(arquivo, "%s\t%lld\t%lld\t%.3f\n", MATRICULA, comparacoes, movimentacoes, tempo_ms);
+    fclose(arquivo);
+}
+
+int main()
+{
+    colecao_restaurantes *base = ler_csv();
+    if (base == NULL)
+    {
+        return 1;
+    }
+
+    colecao_restaurantes *selecionados = ler_entradas(base);
+    if (selecionados == NULL)
+    {
+        free_colecao(base);
+        free(base);
+        return 1;
+    }
+
+    long long comparacoes = 0;
+    long long movimentacoes = 0;
+    clock_t inicio = clock();
+    selecao_por_nome(selecionados, &comparacoes, &movimentacoes);
+    clock_t fim = clock();
+    double tempo_ms = ((double)(fim - inicio) * 1000.0) / CLOCKS_PER_SEC;
+
+    for (int i = 0; i < selecionados->tamanho; i++)
+    {
+        char s[2048];
+        formatar_restaurante(selecionados->restaurantes[i], s);
+        printf("%s", s);
+    }
+
+    escrever_log(comparacoes, movimentacoes, tempo_ms);
+
+    free(selecionados->restaurantes);
+    free(selecionados);
+    free_colecao(base);
+    free(base);
+
+    return 0;
 }

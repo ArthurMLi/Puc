@@ -1,38 +1,70 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class TP02Q01 {
+public class TP02Q05 {
+
+    private static final String MATRICULA = "885134";
 
     public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        ColecaoRestaurantes colecao = new ColecaoRestaurantes();
-        colecao.lerCsv("/tmp/restaurantes.csv");
+        try (Scanner sc = new Scanner(System.in)) {
+            ColecaoRestaurantes base = new ColecaoRestaurantes();
+            base.lerCsv("/tmp/restaurantes.csv");
 
-        int tam = colecao.getTamanho();
-        Restaurante restaurantes[] = colecao.getRestaurantes();
-        int idPesquisado = sc.nextInt();
-        while (idPesquisado != -1) {
-			for (int i = 0; i < tam; i++) {
-				if (restaurantes[i].getId() == idPesquisado) {
-					System.out.println(restaurantes[i].formatar());
-					i = tam;
-				}
-			}
-			idPesquisado = sc.nextInt();
-		}
+            ColecaoRestaurantes selecionados = lerEntradas(base, sc);
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+            }
+            long inicio = System.nanoTime();
+            selecionados.pesquisaSequencialPorCidade(sc);
+            long fim = System.nanoTime();
+            double tempoMs = (fim - inicio) / 1_000_000.0;
 
+            escreverLog(selecionados.comparacoes, selecionados.movimentacoes, tempoMs, "_sequencial.txt");
+        }
+    }
+
+    private static ColecaoRestaurantes lerEntradas(ColecaoRestaurantes base, Scanner sc) {
+        ColecaoRestaurantes selecionados = new ColecaoRestaurantes();
+        int id = sc.nextInt();
+        while (id != -1) {
+            Restaurante encontrado = base.pesquisarRestaurante(id);
+            if (encontrado != null) {
+                selecionados.inserirRestaurante(encontrado);
+            }
+            id = sc.nextInt();
+        }
+
+        return selecionados;
+    }
+
+    private static void escreverLog(long comparacoes, long movimentacoes, double tempoMs, String tipo) {
+        String nomeArquivo = MATRICULA + tipo;
+        try (PrintWriter pw = new PrintWriter(nomeArquivo)) {
+            if (movimentacoes == 0) {
+                pw.printf("%s\t%d\t%.3f%n", MATRICULA, comparacoes, tempoMs);
+            } else {
+                pw.printf("%s\t%d\t%d\t%.3f%n", MATRICULA, comparacoes, movimentacoes, tempoMs);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Nao foi possivel criar o arquivo de log", e);
+        }
     }
 
     static class ColecaoRestaurantes {
 
         private int tamanho;
         private Restaurante[] restaurantes;
+        long comparacoes;
+        long movimentacoes;
 
         public ColecaoRestaurantes() {
             this.tamanho = 0;
             this.restaurantes = new Restaurante[0];
+            this.comparacoes = 0;
+            this.movimentacoes = 0;
         }
 
         public int getTamanho() {
@@ -41,6 +73,79 @@ public class TP02Q01 {
 
         public Restaurante[] getRestaurantes() {
             return restaurantes;
+        }
+
+        void pesquisaSequencialPorCidade(Scanner sc) {
+            comparacoes = 0;
+            String nome = "";
+
+            if (sc.hasNextLine()) {
+                nome = sc.nextLine().trim();
+            }
+
+            while (nome.compareTo("FIM") != 0) {
+                System.out.println(pesquisaSequencialPorCidade(nome) ? "SIM" : "NAO");
+                if (sc.hasNextLine()) {
+                    nome = sc.nextLine().trim();
+                } else {
+                    break;
+                }
+            }
+        }
+
+        boolean pesquisaSequencialPorCidade(String nome) {
+            for (int i = 0; i < tamanho; i++) {
+                comparacoes++;
+                if (restaurantes[i].nome.compareTo(nome) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void inserirRestaurante(Restaurante r) {
+            Restaurante[] novo = new Restaurante[tamanho + 1];
+            for (int i = 0; i < tamanho; i++) {
+                novo[i] = restaurantes[i];
+            }
+            novo[tamanho] = r;
+            restaurantes = novo;
+            tamanho++;
+
+        }
+
+        Restaurante pesquisarRestaurante(int id) {
+            for (int i = 0; i < tamanho; i++) {
+                if (restaurantes[i].id == id) {
+                    return restaurantes[i];
+                }
+            }
+            return null;
+        }
+
+        public void insercaoPorCidade() {
+            comparacoes = 0;
+            movimentacoes = 0;
+
+            for (int i = 1; i < tamanho; i++) {
+                Restaurante tmp = restaurantes[i];
+                int j = i - 1;
+
+                while (j >= 0) {
+                    comparacoes++;
+                    if (restaurantes[j].getCidade().compareTo(tmp.getCidade()) > 0) {
+                        restaurantes[j + 1] = restaurantes[j];
+                        movimentacoes++;
+                        j--;
+                    } else {
+                        break;
+                    }
+                }
+
+                restaurantes[j + 1] = tmp;
+                movimentacoes++;
+            }
+
         }
 
         public void lerCsv(String path) {
@@ -220,7 +325,7 @@ public class TP02Q01 {
         public static Restaurante parseRestaurante(String s) {
             Scanner sc = new Scanner(s);
             sc.useDelimiter(",");
-			sc.useLocale(java.util.Locale.US);
+            sc.useLocale(java.util.Locale.US);
             int id = sc.nextInt();
             String nome = sc.next();
             String cidade = sc.next();
@@ -329,7 +434,8 @@ public class TP02Q01 {
         }
 
         public String formatar() {
-            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao + " ## [";
+            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao
+                    + " ## [";
 
             for (int i = 0; i < tiposCozinha.length; i++) {
                 temp += tiposCozinha[i];
@@ -344,7 +450,8 @@ public class TP02Q01 {
                 temp += "$";
             }
 
-            temp += " ## " + horarioAbertura.formatar() + "-" + horarioFechamento.formatar() + " ## " + dataAbertura.formatar()
+            temp += " ## " + horarioAbertura.formatar() + "-" + horarioFechamento.formatar() + " ## "
+                    + dataAbertura.formatar()
                     + " ## " + aberto + "]";
 
             return temp;
