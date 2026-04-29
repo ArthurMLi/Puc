@@ -6,11 +6,8 @@ import java.util.Scanner;
 public class ula {
     // Configuracoes gerais do tradutor.
     public static final int MAX_INSTRUCOES = 200;
-    public static int LIMITE_CARGA_ARDUINO = 100;
-    public static String origem = "ula.ula";
+    public static String origem = "TESTEULA.ula";
     public static String destino = "ula.hex";
-    public static String destinoSerial = "ula_serial.txt";
-    public static String destinoSerial100 = "ula_serial_100.txt";
 
     // Fluxo principal: traduz o .ula, gera arquivos de saida e imprime resumo.
     public static void main(String[] args) {
@@ -26,17 +23,12 @@ public class ula {
             System.out.println("Arquivo HEX: " + destino);
             System.out.println("Total de instrucoes: " + tam);
 
+            // Exibe no terminal o indice e a instrucao gerada, para facilitar conferencia.
             for (int i = 0; i < tam; i++) {
                 System.out.println(i + ": " + hexa[i]);
             }
 
-            gerarCargaSerial(hexa, tam, destinoSerial, tam);
-            gerarCargaSerial(hexa, tam, destinoSerial100, LIMITE_CARGA_ARDUINO);
-
             System.out.println("Traducao concluida.");
-            System.out.println("Agora envie o arquivo HEX para o Arduino pelo monitor serial.");
-            System.out.println("Arquivo para colar em blocos: " + destinoSerial);
-            System.out.println("Arquivo para Arduino (max " + LIMITE_CARGA_ARDUINO + "): " + destinoSerial100);
         } catch (FileNotFoundException e) {
             System.out.println("Erro: arquivo nao encontrado: " + origem);
         } catch (NumberFormatException e) {
@@ -52,6 +44,8 @@ public class ula {
         int pos = 0;
         int x = 0;
         int y = 0;
+        int totalErros = 0;
+        StringBuilder erros = new StringBuilder();
 
         File arquivoOrigem = new File(origem);
         if (!arquivoOrigem.exists()) {
@@ -73,46 +67,55 @@ public class ula {
         while (sc.hasNextLine()) {
             numeroLinha++;
             String linha = limparLinha(sc.nextLine());
-
-            if (linha.length() == 0) {
-                continue;
-            }
-
             String u = linha.toUpperCase();
-            if (u.equals("INICIO:") || u.equals("FIM.")) {
-                if (u.equals("FIM.")) {
-                    encontrouFim = true;
-                }
-                continue;
-            }
 
-            if (u.startsWith("X=")) {
-                x = lerNibble(u.substring(2), numeroLinha, "X");
-            } else if (u.startsWith("Y=")) {
-                y = lerNibble(u.substring(2), numeroLinha, "Y");
-            } else if (u.startsWith("W=")) {
-                String mnemonico = removerFim(u.substring(2), ';');
-                int op = opcode(mnemonico);
-
-                if (op < 0) {
-                    sc.close();
-                    throw new Exception("Linha " + numeroLinha + ": mnem?nico invalido: " + mnemonico);
+            try {
+                if (linha.length() == 0) {
+                    throw new Exception("Linha " + numeroLinha + ": linha vazia.");
                 }
 
-                if (pos >= MAX_INSTRUCOES) {
-                    sc.close();
-                    throw new Exception("Linha " + numeroLinha + ": limite excedido. Maximo de " + MAX_INSTRUCOES + " instrucoes.");
+                if (u.equals("INICIO:") || u.equals("FIM.")) {
+                    if (u.equals("FIM.")) {
+                        encontrouFim = true;
+                    }
+                    continue;
                 }
 
-                hexa[pos] = "" + nibbleHex(x) + nibbleHex(y) + nibbleHex(op);
-                pos++;
-            } else {
-                sc.close();
-                throw new Exception("Linha " + numeroLinha + " invalida: " + linha);
+                if (u.startsWith("X=")) {
+                    exigirPontoVirgula(u, numeroLinha, "X");
+                    x = lerNibble(u.substring(2), numeroLinha, "X");
+                } else if (u.startsWith("Y=")) {
+                    exigirPontoVirgula(u, numeroLinha, "Y");
+                    y = lerNibble(u.substring(2), numeroLinha, "Y");
+                } else if (u.startsWith("W=")) {
+                    exigirPontoVirgula(u, numeroLinha, "W");
+                    String mnemonico = removerFim(u.substring(2), ';');
+                    int op = opcode(mnemonico);
+
+                    if (op < 0) {
+                        throw new Exception("Linha " + numeroLinha + ": mnem?nico invalido: " + mnemonico);
+                    }
+
+                    if (pos >= MAX_INSTRUCOES) {
+                        throw new Exception("Linha " + numeroLinha + ": limite excedido. Maximo de " + MAX_INSTRUCOES + " instrucoes.");
+                    }
+
+                    hexa[pos] = "" + nibbleHex(x) + nibbleHex(y) + nibbleHex(op);
+                    pos++;
+                } else {
+                    throw new Exception("Linha " + numeroLinha + " invalida: " + linha);
+                }
+            } catch (Exception e) {
+                totalErros++;
+                erros.append(e.getMessage()).append("\n");
             }
         }
 
         sc.close();
+
+        if (totalErros > 0) {
+            throw new Exception("Foram encontrados " + totalErros + " erro(s):\n" + erros.toString().trim());
+        }
 
         if (pos == 0) {
             throw new Exception("Nenhuma instrucao foi gerada. Verifique o arquivo .ula.");
@@ -129,50 +132,11 @@ public class ula {
     // Grava o arquivo .hex com uma instrucao por linha.
     public static void gravarHexa(String[] hexa, int tam) throws Exception {
         File arqDestino = new File(destino);
-        if (!new File(".").getCanonicalPath().endsWith("Arq2")) {
-            arqDestino = new File("Arq2/" + destino);
-        }
 
         PrintWriter pw = new PrintWriter(arqDestino);
         for (int i = 0; i < tam; i++) {
             pw.println(hexa[i]);
         }
-        pw.close();
-    }
-
-    // Gera arquivo pronto para colar no serial (RESET + blocos + RUN).
-    public static void gerarCargaSerial(String[] hexa, int tam, String nomeArquivo, int limite) throws Exception {
-        File arq = new File(nomeArquivo);
-        if (!new File(".").getCanonicalPath().endsWith("Arq2")) {
-            arq = new File("Arq2/" + nomeArquivo);
-        }
-
-        int total = tam;
-        if (total > limite) {
-            total = limite;
-        }
-
-        PrintWriter pw = new PrintWriter(arq);
-        pw.println("RESET");
-
-        for (int i = 0; i < total; i += 20) {
-            String linha = "";
-            int fim = i + 20;
-            if (fim > total) {
-                fim = total;
-            }
-
-            for (int j = i; j < fim; j++) {
-                if (j > i) {
-                    linha += " ";
-                }
-                linha += hexa[j];
-            }
-
-            pw.println(linha);
-        }
-
-        pw.println("RUN");
         pw.close();
     }
 
@@ -208,9 +172,7 @@ public class ula {
         }
 
         int valor;
-        if (texto.startsWith("0X")) {
-            valor = Integer.parseInt(texto.substring(2), 16);
-        } else if (soNumero(texto)) {
+       if (soNumero(texto)) {
             valor = Integer.parseInt(texto, 10);
         } else if (texto.length() == 1 && ehHex(texto.charAt(0))) {
             valor = Integer.parseInt(texto, 16);
@@ -277,6 +239,13 @@ public class ula {
             return s.substring(0, s.length() - 1).trim();
         }
         return s;
+    }
+
+    // Exige ';' ao final de comandos X, Y e W para manter sintaxe consistente.
+    public static void exigirPontoVirgula(String linha, int numeroLinha, String campo) throws Exception {
+        if (!linha.endsWith(";")) {
+            throw new Exception("Linha " + numeroLinha + ": comando " + campo + " sem ';' no final.");
+        }
     }
 
     // Conta quantas instrucoes validas existem no vetor gerado.
