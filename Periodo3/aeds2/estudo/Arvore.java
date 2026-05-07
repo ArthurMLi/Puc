@@ -136,12 +136,6 @@ class No {
     No esq;
     No dir;
 
-    No() {
-        elemento = -1;
-        esq = null;
-        dir = null;
-    }
-
     No(int x) {
         elemento = x;
         esq = null;

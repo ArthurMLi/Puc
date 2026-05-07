@@ -14,19 +14,25 @@ public class Main {
         sc.close();
     }
 
-    public static void lerComando(Scanner sc,String comando, Arvore arvore) {
+    public static void lerComando(Scanner sc, String comando, Arvore arvore) {
         switch (comando) {
-            case "I" ->
+            case "i" ->
                 inserir(sc.nextInt(), arvore);
-            case "IP" ->
+            case "inserir" ->
+                inserir(sc.nextInt(), arvore);
+            case "ip" ->
                 inserirPai(sc.nextInt(), arvore);
-            case "P" ->
+            case "inserirpai" ->
+                inserir(sc.nextInt(), arvore);
+            case "p" ->
                 pesquisar(sc.nextInt(), arvore);
-            case "CPRE" ->
+            case "pesquisar" ->
+                pesquisar(sc.nextInt(), arvore);
+            case "caminharpre" ->
                 caminharPre(arvore);
-            case "CPOS" ->
+            case "caminharpos" ->
                 caminharPos(arvore);
-            case "CCENTRAL" ->
+            case "caminharcentral" ->
                 caminharCentral(arvore);
             default ->
                 System.out.println("Comando não aceito");
@@ -62,8 +68,12 @@ public class Main {
         for (int i = 0; i < s.length(); i++) {
             if (!(s.charAt(i) >= '0' && s.charAt(i) <= '9')) {
                 resp += s.charAt(i) + "";
+            } else {
+                if (s.charAt(i) >= 'A' && s.charAt(i) <= 'Z') {
+                    resp += (s.charAt(i) - 'A' + 'a');
+                }
             }
         }
-        return resp;
+        return resp.trim();
     }
 }
