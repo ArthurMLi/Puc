@@ -10,7 +10,7 @@ public class Arvore {
     public void inserir(int x) {
         if (raiz == null) {
             raiz = new No(x);
-        }else{
+        } else {
             inserir(x, raiz);
         }
     }
@@ -50,14 +50,11 @@ public class Arvore {
             if (pai.elemento < x) {
                 pai.dir = new No(x);
             } else {
-                if (pai.elemento > x) {
-                    pai.esq = new No(x);
-                }
+                pai.esq = new No(x);
             }
         } else {
             if (noDiferente(filho.elemento, x)) {
                 if (filho.elemento > x) {
-                    //elemento menor vai pra esquerda
                     inserirPai(x, filho, filho.esq);
                 } else {
                     inserirPai(x, filho, filho.dir);
@@ -93,36 +90,36 @@ public class Arvore {
         return resp;
     }
 
-    public void caminharPre(){
+    public void caminharPre() {
         caminharPre(raiz);
     }
 
-    private void caminharPre(No no){
-        if(no != null){
+    private void caminharPre(No no) {
+        if (no != null) {
             System.out.println(no.elemento);
             caminharPre(no.esq);
             caminharPre(no.dir);
         }
     }
 
-    public void caminharPos(){
+    public void caminharPos() {
         caminharPos(raiz);
     }
 
-    private void caminharPos(No no){
-        if(no != null){
+    private void caminharPos(No no) {
+        if (no != null) {
             caminharPos(no.esq);
             caminharPos(no.dir);
             System.out.println(no.elemento);
         }
     }
 
-    public void caminharCentral(){
+    public void caminharCentral() {
         caminharCentral(raiz);
     }
 
-    private void caminharCentral(No no){
-        if(no != null){
+    private void caminharCentral(No no) {
+        if (no != null) {
             caminharCentral(no.esq);
             System.out.println(no.elemento);
             caminharCentral(no.dir);
