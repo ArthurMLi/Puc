@@ -24,6 +24,10 @@ public class Main {
                 inserirPai(sc.nextInt(), arvore);
             case "inserirpai" ->
                 inserir(sc.nextInt(), arvore);
+            case "inserirrandom" ->
+                inserirRand(sc.nextInt(),arvore);
+            case "ir" ->
+                inserirRand(sc.nextInt(),arvore);
             case "p" ->
                 pesquisar(sc.nextInt(), arvore);
             case "pesquisar" ->
@@ -34,6 +38,14 @@ public class Main {
                 caminharPos(arvore);
             case "caminharcentral" ->
                 caminharCentral(arvore);
+            case "maior" ->
+                getMaior(arvore);
+            case "menor" ->
+                getMenor(arvore);
+            case "remover" ->
+                remover(sc.nextInt(),arvore);
+            case "r" ->
+                remover(sc.nextInt(),arvore);
             default ->
                 System.out.println("Comando não aceito");
         }
@@ -44,7 +56,23 @@ public class Main {
     }
 
     private static void inserirPai(int x, Arvore arvore) {
-        arvore.inserir(x);
+        arvore.inserirPai(x);
+    }
+
+    private static void inserirRand(int n, Arvore arvore) {
+        Random r = new Random(4);
+        int valor;
+        for (int i = 0; i < n;) {
+            valor = r.nextInt() % n;
+            if (!(arvore.pesquisar(valor))) {
+                arvore.inserir(valor);
+                i++;
+            }
+        }
+    }
+
+    private static void remover(int x,Arvore arvore){
+        arvore.remover(x);
     }
 
     private static void pesquisar(int x, Arvore arvore) {
@@ -75,5 +103,13 @@ public class Main {
             }
         }
         return resp.trim();
+    }
+
+    private static void getMaior(Arvore arvore) {
+        System.out.println(arvore.getMaior());
+    }
+    
+    private static void getMenor(Arvore arvore) {
+        System.out.println(arvore.getMenor());
     }
 }
