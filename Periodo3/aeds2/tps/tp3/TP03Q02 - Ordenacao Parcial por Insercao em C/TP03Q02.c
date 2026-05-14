@@ -359,7 +359,7 @@ void insercaoPorCidade(colecao_restaurantes *colecao, long long *comparacoes, lo
 void escrever_log(long long comparacoes, long long movimentacoes, double tempo_ms)
 {
     char nome_arquivo[64];
-    snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_countingsort.txt", MATRICULA);
+    snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_insersao_parcial.txt", MATRICULA);
 
     FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL)
