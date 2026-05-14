@@ -1,83 +1,102 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class TP02Q09 {
-
-    private static final String MATRICULA = "885134";
+public class TP03Q06 {
 
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
             ColecaoRestaurantes base = new ColecaoRestaurantes();
             base.lerCsv("/tmp/restaurantes.csv");
 
-            ColecaoRestaurantes selecionados = lerEntradas(base, sc);
+            PilhaFlexivel pilha = new PilhaFlexivel();
 
-            long inicio = System.nanoTime();
-            selecionados.heapsortPorData();
-            long fim = System.nanoTime();
-            double tempoMs = (fim - inicio) / 1_000_000.0;
-
-            escreverLog(selecionados.comparacoes, selecionados.movimentacoes, tempoMs, "_heapsort.txt");
-
-            for (int i = 0; i < selecionados.getTamanho(); i++) {
-                System.out.println(selecionados.getRestaurantes()[i].formatar());
+            int id = sc.nextInt();
+            while (id != -1) {
+                Restaurante r = base.pesquisarRestaurante(id);
+                if (r != null) {
+                    pilha.push(r);
+                }
+                id = sc.nextInt();
             }
+
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            for (int i = 0; i < n; i++) {
+                String linha = sc.nextLine();
+                String[] partes = linha.split(" ");
+
+                if (partes[0].compareTo("I") == 0) {
+                    int novoId = Integer.parseInt(partes[1]);
+                    Restaurante r = base.pesquisarRestaurante(novoId);
+                    if (r != null) {
+                        pilha.push(r);
+                    }
+                } else if (partes[0].compareTo("R") == 0) {
+                    Restaurante r = pilha.pop();
+                    if (r != null) {
+                        System.out.println("(R)" + r.nome);
+                    }
+                }
+            }
+
+            pilha.mostrar();
         }
     }
 
-    private static ColecaoRestaurantes lerEntradas(ColecaoRestaurantes base, Scanner sc) {
-        ColecaoRestaurantes selecionados = new ColecaoRestaurantes();
-        int id = sc.nextInt();
-        while (id != -1) {
-            Restaurante r = base.pesquisarRestaurante(id);
-            if (r != null) {
-                selecionados.inserirRestaurante(r);
-            }
-            id = sc.nextInt();
+    static class No {
+        Restaurante dado;
+        No prox;
+
+        No(Restaurante dado) {
+            this.dado = dado;
+            this.prox = null;
         }
-        return selecionados;
     }
 
-    private static void escreverLog(long comparacoes, long movimentacoes, double tempoMs, String sufixo) {
-        String nomeArquivo = MATRICULA + sufixo;
-        try (PrintWriter pw = new PrintWriter(nomeArquivo)) {
-            pw.printf("%s\t%d\t%d\t%.3f%n", MATRICULA, comparacoes, movimentacoes, tempoMs);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Nao foi possivel criar o arquivo de log", e);
+    static class PilhaFlexivel {
+        private No topo;
+        private int tamanho;
+
+        PilhaFlexivel() {
+            this.topo = null;
+            this.tamanho = 0;
+        }
+
+        void push(Restaurante r) {
+            No n = new No(r);
+            n.prox = topo;
+            topo = n;
+            tamanho++;
+        }
+
+        Restaurante pop() {
+            if (topo == null) {
+                return null;
+            }
+            Restaurante r = topo.dado;
+            topo = topo.prox;
+            tamanho--;
+            return r;
+        }
+
+        void mostrar() {
+            No aux = topo;
+            while (aux != null) {
+                System.out.println(aux.dado.formatar());
+                aux = aux.prox;
+            }
         }
     }
 
     static class ColecaoRestaurantes {
         private int tamanho;
         private Restaurante[] restaurantes;
-        long comparacoes;
-        long movimentacoes;
 
         ColecaoRestaurantes() {
             this.tamanho = 0;
             this.restaurantes = new Restaurante[0];
-            this.comparacoes = 0;
-            this.movimentacoes = 0;
-        }
-
-        public int getTamanho() {
-            return tamanho;
-        }
-
-        public Restaurante[] getRestaurantes() {
-            return restaurantes;
-        }
-
-        void inserirRestaurante(Restaurante r) {
-            Restaurante[] novo = new Restaurante[tamanho + 1];
-            for (int i = 0; i < tamanho; i++) {
-                novo[i] = restaurantes[i];
-            }
-            novo[tamanho] = r;
-            restaurantes = novo;
-            tamanho++;
         }
 
         Restaurante pesquisarRestaurante(int id) {
@@ -87,66 +106,6 @@ public class TP02Q09 {
                 }
             }
             return null;
-        }
-
-        private int compararData(Restaurante a, Restaurante b) {
-            if (a.dataAbertura.ano != b.dataAbertura.ano) {
-                comparacoes++;
-                return a.dataAbertura.ano - b.dataAbertura.ano;
-            }
-
-            if (a.dataAbertura.mes != b.dataAbertura.mes) {
-                comparacoes++;
-                return a.dataAbertura.mes - b.dataAbertura.mes;
-            }
-
-            if (a.dataAbertura.dia != b.dataAbertura.dia) {
-                comparacoes++;
-                return a.dataAbertura.dia - b.dataAbertura.dia;
-            }
-
-            comparacoes++;
-            return a.nome.compareTo(b.nome);
-        }
-
-        private void swap(int i, int j) {
-            Restaurante tmp = restaurantes[i];
-            restaurantes[i] = restaurantes[j];
-            restaurantes[j] = tmp;
-            movimentacoes += 3;
-        }
-
-        void heapsortPorData() {
-            comparacoes = 0;
-            movimentacoes = 0;
-
-            for (int i = tamanho / 2 - 1; i >= 0; i--) {
-                heapify(tamanho, i);
-            }
-
-            for (int i = tamanho - 1; i > 0; i--) {
-                swap(0, i);
-                heapify(i, 0);
-            }
-        }
-
-        private void heapify(int n, int i) {
-            int maior = i;
-            int esq = 2 * i + 1;
-            int dir = 2 * i + 2;
-
-            if (esq < n && compararData(restaurantes[esq], restaurantes[maior]) > 0) {
-                maior = esq;
-            }
-
-            if (dir < n && compararData(restaurantes[dir], restaurantes[maior]) > 0) {
-                maior = dir;
-            }
-
-            if (maior != i) {
-                swap(i, maior);
-                heapify(n, maior);
-            }
         }
 
         void lerCsv(String path) {

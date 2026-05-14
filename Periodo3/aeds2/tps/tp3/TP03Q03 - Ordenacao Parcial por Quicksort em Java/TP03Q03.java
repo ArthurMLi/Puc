@@ -17,7 +17,7 @@ public class TP03Q03 {
 
       try {
          ColecaoRestaurantes var3 = new ColecaoRestaurantes();
-         var3.lerCsv("../../tp2/restaurantes.csv");
+         var3.lerCsv("/tmp/restaurantes.csv");
          ColecaoRestaurantes var4 = lerEntradas(var3, var1);
          if (var1.hasNextLine()) {
             var1.nextLine();
@@ -32,7 +32,7 @@ public class TP03Q03 {
             System.out.println(var4.restaurantes[var11].formatar());
          }
 
-         escreverLog(var4.comparacoes, var4.movimentacoes, var9, "_sequencial_parcial.txt");
+         escreverLog(var4.comparacoes, var4.movimentacoes, var9, "_quicksort_parcial.txt");
       } catch (Throwable var19) {
          var2 = var19;
          throw var19;
@@ -123,21 +123,24 @@ public class TP03Q03 {
          this.quicksort(0, this.tamanho - 1, var1);
       }
 
+      private int compare(Restaurante r1, Restaurante r2) {
+         ++this.comparacoes;
+         if (r1.avaliacao != r2.avaliacao) {
+            return Double.compare(r1.avaliacao, r2.avaliacao);
+         }
+         return r1.nome.compareTo(r2.nome);
+      }
+
       private void quicksort(int var1, int var2, int var3) {
+         if (var1 >= var2 || var1 >= var3) return;
+         
          int var4 = var1;
          int var5 = var2;
-         String var6 = this.restaurantes[(var1 + var2) / 2].nome;
+         Restaurante pivo = this.restaurantes[(var1 + var2) / 2];
 
          while(var4 <= var5) {
-            while(this.restaurantes[var4].nome.compareTo(var6) > 0) {
-               ++this.comparacoes;
-               ++var4;
-            }
-
-            while(this.restaurantes[var5].nome.compareTo(var6) < 0) {
-               ++this.comparacoes;
-               --var5;
-            }
+            while(compare(this.restaurantes[var4], pivo) < 0) ++var4;
+            while(compare(this.restaurantes[var5], pivo) > 0) --var5;
 
             if (var4 <= var5) {
                this.swap(var4, var5);
@@ -146,15 +149,8 @@ public class TP03Q03 {
             }
          }
 
-         if (var1 < var5 && var5 < var3) {
-            ++this.comparacoes;
-            this.quicksort(var1, var5, var3);
-         }
-
-         if (var4 < var2) {
-            ++this.comparacoes;
-         }
-
+         if (var1 < var5) this.quicksort(var1, var5, var3);
+         if (var4 < var2) this.quicksort(var4, var2, var3);
       }
 
       public void selecaoColecaoRestaurantes(int var1) {
