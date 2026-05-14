@@ -1,0 +1,27 @@
+ #x = 3
+ #x -> s0
+
+
+aqui:
+#addi $s0,$zero,1000 #x = 3
+#addi $t0,,$zero,0x1001
+#sll $t0,$t0,16
+
+#sw $s0,0($t0)
+#j aqui
+
+#X = 3
+#Y = 5  
+#Z = X + Y
+.data
+x: .word 3
+y: .word 5
+z: .word -1
+
+.text
+addi $t0,$zero,0x1001
+sll $t0,$t0,16
+lw $s0,0($t0)
+lw $s1,4($t0)
+add $t1,$s0,$s1
+sw $t1,8($t0) 
