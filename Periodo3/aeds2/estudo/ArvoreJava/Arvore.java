@@ -66,6 +66,39 @@ public class Arvore {
         }
     }
 
+    public void remover(int x) {
+        raiz = remover(x, raiz);
+    }
+
+    private No remover(int x, No no) {
+        if (no.elemento < x) {
+            no.dir = remover(x, no.dir);
+        } else if (no.elemento > x) {
+            no.esq = remover(x, no.esq);
+        } else {
+            if (no.esq == null && no.dir == null) {
+                no.esq = maiorEsq(no, no.esq);
+            }else{
+                if (no.esq == null){
+                    no = no.dir;
+                }else{
+                    no = no.esq;
+                }
+            }
+        }
+        return no;
+    }
+
+    private No maiorEsq(No i, No j) {
+        if (j.dir == null) {
+            i.elemento = j.elemento;
+            j = j.esq;
+        } else {
+            j.dir = maiorEsq(i, j.dir);
+        }
+        return j;
+    }
+
     private boolean noDiferente(int x, int y) {
         return (x != y);
     }
@@ -125,6 +158,37 @@ public class Arvore {
             caminharCentral(no.dir);
         }
     }
+
+    public int getMaior() {
+        if (raiz != null) {
+            return getMaior(raiz);
+        }
+        return -1;
+    }
+
+    private int getMaior(No no) {
+
+        if (no.dir != null) {
+            return getMaior(no.dir);
+        }
+        return no.elemento;
+    }
+
+    public int getMenor() {
+        if (raiz != null) {
+            return getMenor(raiz);
+        }
+        return -1;
+    }
+
+    private int getMenor(No no) {
+
+        if (no.esq != null) {
+            return getMenor(no.esq);
+        }
+        return no.elemento;
+    }
+
 }
 
 class No {
