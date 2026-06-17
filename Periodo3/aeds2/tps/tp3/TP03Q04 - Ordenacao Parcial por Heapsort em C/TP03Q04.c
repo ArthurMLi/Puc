@@ -330,7 +330,7 @@ void insercaoPorCidade(colecao_restaurantes *colecao, long long *comparacoes, lo
     for (int i = k; i < colecao->tamanho; i++)
     {
         comparacoes++;
-        if (strcmp(colecao->restaurantes[i]->cidade, colecao->restaurantes[k-1]->cidade) < 0)
+        if (strcmp(colecao->restaurantes[i]->cidade, colecao->restaurantes[k - 1]->cidade) < 0)
         {
             // Troca com o maior da janela (posição k-1) e reinsere ordenado
             restaurante *tmp = colecao->restaurantes[i];
@@ -347,19 +347,107 @@ void insercaoPorCidade(colecao_restaurantes *colecao, long long *comparacoes, lo
                     movimentacoes++;
                     j--;
                 }
-                else break;
+                else
+                    break;
             }
             colecao->restaurantes[j + 1] = tmp;
             movimentacoes++;
         }
     }
+}
+void swap(int *i, int *j)
+{
+    int temp = *i;
+    *i = *j;
+    *j = temp;
+}
 
+void construir(int *array, int tamHeap)
+{
+    for (int i = tamHeap; i > 1 && array[i] > array[i / 2]; i /= 2)
+    {
+        swap(array + i, array + i / 2);
+    }
+}
+//=============================================================================
+int compararData(restaurante *a, restaurante *b, long long *comparacoes)
+{
+    (*comparacoes)++;
+    if (a->data_abertura.ano != b->data_abertura.ano)
+        return a->data_abertura.ano - b->data_abertura.ano;
+    
+    (*comparacoes)++;
+    if (a->data_abertura.mes != b->data_abertura.mes)
+        return a->data_abertura.mes - b->data_abertura.mes;
+    
+    (*comparacoes)++;
+    if (a->data_abertura.dia != b->data_abertura.dia)
+        return a->data_abertura.dia - b->data_abertura.dia;
+    
+    (*comparacoes)++;
+    return strcmp(a->nome, b->nome);
+}
+
+void swapRestaurante(restaurante **a, restaurante **b, long long *movimentacoes)
+{
+    restaurante *tmp = *a;
+    *a = *b;
+    *b = tmp;
+    (*movimentacoes) += 3;
+}
+
+void heapifyData(colecao_restaurantes *colecao, int n, int i, long long *comparacoes, long long *movimentacoes)
+{
+    int maior = i;
+    int esq = 2 * i + 1;
+    int dir = 2 * i + 2;
+
+    if (esq < n && compararData(colecao->restaurantes[esq], colecao->restaurantes[maior], comparacoes) > 0)
+        maior = esq;
+
+    if (dir < n && compararData(colecao->restaurantes[dir], colecao->restaurantes[maior], comparacoes) > 0)
+        maior = dir;
+
+    if (maior != i)
+    {
+        swapRestaurante(&colecao->restaurantes[i], &colecao->restaurantes[maior], movimentacoes);
+        heapifyData(colecao, n, maior, comparacoes, movimentacoes);
+    }
+}
+
+void heap_por_abertura(colecao_restaurantes *colecao, long long *comparacoes, long long *movimentacoes, int k)
+{
+    *comparacoes = 0;
+    *movimentacoes = 0;
+
+    // Selection: move 10 smallest to front
+    int limit = k < colecao->tamanho ? k : colecao->tamanho;
+    for (int i = 0; i < limit; i++)
+    {
+        int minIdx = i;
+        for (int j = i + 1; j < colecao->tamanho; j++)
+        {
+            if (compararData(colecao->restaurantes[j], colecao->restaurantes[minIdx], comparacoes) < 0)
+                minIdx = j;
+        }
+        swapRestaurante(&colecao->restaurantes[i], &colecao->restaurantes[minIdx], movimentacoes);
+    }
+
+    // Heapsort only the first 10
+    for (int i = limit / 2 - 1; i >= 0; i--)
+        heapifyData(colecao, limit, i, comparacoes, movimentacoes);
+
+    for (int i = limit - 1; i > 0; i--)
+    {
+        swapRestaurante(&colecao->restaurantes[0], &colecao->restaurantes[i], movimentacoes);
+        heapifyData(colecao, i, 0, comparacoes, movimentacoes);
+    }
 }
 
 void escrever_log(long long comparacoes, long long movimentacoes, double tempo_ms)
 {
     char nome_arquivo[64];
-    snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_insersao_parcial.txt", MATRICULA);
+    snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_heapsort_parcial.txt", MATRICULA);
 
     FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL)
@@ -391,7 +479,7 @@ int main()
     long long movimentacoes = 0;
 
     clock_t inicio = clock();
-    insercaoPorCidade(selecionados, &comparacoes, &movimentacoes, 10);
+    heap_por_abertura(selecionados, &comparacoes, &movimentacoes, 10);
     clock_t fim = clock();
     double tempo_ms = ((double)(fim - inicio) * 1000.0) / CLOCKS_PER_SEC;
 

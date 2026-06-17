@@ -1,3 +1,4 @@
+
 // Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -5,52 +6,44 @@ import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class TP03Q03 {
+public class TP03Q01 {
    private static final String MATRICULA = "885134";
 
-   public TP03Q03() {
+   public TP03Q01() {
    }
 
    public static void main(String[] var0) {
       Scanner var1 = new Scanner(System.in);
-      Throwable var2 = null;
 
       try {
-         ColecaoRestaurantes var3 = new ColecaoRestaurantes();
-         var3.lerCsv("/tmp/restaurantes.csv");
-         ColecaoRestaurantes var4 = lerEntradas(var3, var1);
+         ColecaoRestaurantes var2 = new ColecaoRestaurantes();
+         var2.lerCsv("/tmp/restaurantes.csv");
+         ColecaoRestaurantes var3 = lerEntradas(var2, var1);
          if (var1.hasNextLine()) {
             var1.nextLine();
          }
 
-         long var5 = System.nanoTime();
-         var4.quicksort(10);
-         long var7 = System.nanoTime();
-         double var9 = (double)(var7 - var5) / (double)1000000.0F;
+         long var4 = System.nanoTime();
+         var3.selecaoColecaoRestaurantes(10);
+         long var6 = System.nanoTime();
+         double var8 = (double)(var6 - var4) / (double)1000000.0F;
 
-         for(int var11 = 0; var11 < var4.tamanho; ++var11) {
-            System.out.println(var4.restaurantes[var11].formatar());
+         for(int var10 = 0; var10 < var3.tamanho; ++var10) {
+            System.out.println(var3.restaurantes[var10].formatar());
          }
 
-         escreverLog(var4.comparacoes, var4.movimentacoes, var9, "_quicksort_parcial.txt");
-      } catch (Throwable var19) {
-         var2 = var19;
-         throw var19;
-      } finally {
-         if (var1 != null) {
-            if (var2 != null) {
-               try {
-                  var1.close();
-               } catch (Throwable var18) {
-                  var2.addSuppressed(var18);
-               }
-            } else {
-               var1.close();
-            }
+         escreverLog(var3.comparacoes, var3.movimentacoes, var8, "_sequencial_parcial.txt");
+      } catch (Throwable var12) {
+         try {
+            var1.close();
+         } catch (Throwable var11) {
+            var12.addSuppressed(var11);
          }
 
+         throw var12;
       }
 
+      var1.close();
    }
 
    private static ColecaoRestaurantes lerEntradas(ColecaoRestaurantes var0, Scanner var1) {
@@ -67,11 +60,10 @@ public class TP03Q03 {
    }
 
    private static void escreverLog(long var0, long var2, double var4, String var6) {
-      String var7 = "885134" + var6;
+      String var7 = MATRICULA + var6;
 
       try {
          PrintWriter var8 = new PrintWriter(var7);
-         Throwable var9 = null;
 
          try {
             if (var2 == 0L) {
@@ -79,26 +71,19 @@ public class TP03Q03 {
             } else {
                var8.printf("%s\t%d\t%d\t%.3f%n", "885134", var0, var2, var4);
             }
-         } catch (Throwable var19) {
-            var9 = var19;
-            throw var19;
-         } finally {
-            if (var8 != null) {
-               if (var9 != null) {
-                  try {
-                     var8.close();
-                  } catch (Throwable var18) {
-                     var9.addSuppressed(var18);
-                  }
-               } else {
-                  var8.close();
-               }
+         } catch (Throwable var12) {
+            try {
+               var8.close();
+            } catch (Throwable var11) {
+               var12.addSuppressed(var11);
             }
 
+            throw var12;
          }
 
-      } catch (FileNotFoundException var21) {
-         throw new RuntimeException("Nao foi possivel criar o arquivo de log", var21);
+         var8.close();
+      } catch (FileNotFoundException var13) {
+         throw new RuntimeException("Nao foi possivel criar o arquivo de log", var13);
       }
    }
 
@@ -117,40 +102,6 @@ public class TP03Q03 {
 
       public Restaurante[] getRestaurantes() {
          return this.restaurantes;
-      }
-
-      public void quicksort(int var1) {
-         this.quicksort(0, this.tamanho - 1, var1);
-      }
-
-      private int compare(Restaurante r1, Restaurante r2) {
-         ++this.comparacoes;
-         if (r1.avaliacao != r2.avaliacao) {
-            return Double.compare(r1.avaliacao, r2.avaliacao);
-         }
-         return r1.nome.compareTo(r2.nome);
-      }
-
-      private void quicksort(int var1, int var2, int var3) {
-         if (var1 >= var2 || var1 >= var3) return;
-         
-         int var4 = var1;
-         int var5 = var2;
-         Restaurante pivo = this.restaurantes[(var1 + var2) / 2];
-
-         while(var4 <= var5) {
-            while(compare(this.restaurantes[var4], pivo) < 0) ++var4;
-            while(compare(this.restaurantes[var5], pivo) > 0) --var5;
-
-            if (var4 <= var5) {
-               this.swap(var4, var5);
-               ++var4;
-               --var5;
-            }
-         }
-
-         if (var1 < var5) this.quicksort(var1, var5, var3);
-         if (var4 < var2) this.quicksort(var4, var2, var3);
       }
 
       public void selecaoColecaoRestaurantes(int var1) {
@@ -202,7 +153,6 @@ public class TP03Q03 {
          try {
             int var2 = 0;
             Scanner var3 = new Scanner(new File(var1));
-            Throwable var4 = null;
 
             try {
                if (var3.hasNextLine()) {
@@ -210,68 +160,53 @@ public class TP03Q03 {
                }
 
                while(var3.hasNextLine()) {
-                  String var5 = var3.nextLine();
-                  if (var5 != null && var5.trim().length() > 0) {
+                  String var4 = var3.nextLine();
+                  if (var4 != null && var4.trim().length() > 0) {
                      ++var2;
                   }
                }
-            } catch (Throwable var31) {
-               var4 = var31;
-               throw var31;
-            } finally {
-               if (var3 != null) {
-                  if (var4 != null) {
-                     try {
-                        var3.close();
-                     } catch (Throwable var28) {
-                        var4.addSuppressed(var28);
-                     }
-                  } else {
-                     var3.close();
-                  }
+            } catch (Throwable var9) {
+               try {
+                  var3.close();
+               } catch (Throwable var7) {
+                  var9.addSuppressed(var7);
                }
 
+               throw var9;
             }
 
+            var3.close();
             this.restaurantes = new Restaurante[var2];
             this.tamanho = var2;
             var3 = new Scanner(new File(var1));
-            var4 = null;
 
             try {
                if (var3.hasNextLine()) {
                   var3.nextLine();
                }
 
-               int var36 = 0;
+               int var12 = 0;
 
-               while(var3.hasNextLine() && var36 < this.tamanho) {
-                  String var6 = var3.nextLine();
-                  if (var6 != null && var6.trim().length() > 0) {
-                     this.restaurantes[var36] = TP03Q03.Restaurante.parseRestaurante(var6);
-                     ++var36;
+               while(var3.hasNextLine() && var12 < this.tamanho) {
+                  String var5 = var3.nextLine();
+                  if (var5 != null && var5.trim().length() > 0) {
+                     this.restaurantes[var12] = TP03Q01.Restaurante.parseRestaurante(var5);
+                     ++var12;
                   }
                }
-            } catch (Throwable var29) {
-               var4 = var29;
-               throw var29;
-            } finally {
-               if (var3 != null) {
-                  if (var4 != null) {
-                     try {
-                        var3.close();
-                     } catch (Throwable var27) {
-                        var4.addSuppressed(var27);
-                     }
-                  } else {
-                     var3.close();
-                  }
+            } catch (Throwable var8) {
+               try {
+                  var3.close();
+               } catch (Throwable var6) {
+                  var8.addSuppressed(var6);
                }
 
+               throw var8;
             }
 
-         } catch (FileNotFoundException var33) {
-            throw new RuntimeException("Arquivo CSV nao encontrado: " + var1, var33);
+            var3.close();
+         } catch (FileNotFoundException var10) {
+            throw new RuntimeException("Arquivo CSV nao encontrado: " + var1, var10);
          }
       }
    }
@@ -295,7 +230,8 @@ public class TP03Q03 {
       }
 
       public String formatar() {
-         return (this.hora > 9 ? this.hora + "" : "0" + this.hora) + ":" + (this.minuto > 9 ? this.minuto + "" : "0" + this.minuto);
+         String var10000 = this.hora > 9 ? "" + this.hora : "0" + this.hora;
+         return var10000 + ":" + (this.minuto > 9 ? "" + this.minuto : "0" + this.minuto);
       }
 
       public int getHora() {
@@ -337,9 +273,10 @@ public class TP03Q03 {
       }
 
       public String formatar() {
-         String var1 = (this.dia > 9 ? this.dia + "" : "0" + this.dia) + "/" + (this.mes > 9 ? this.mes + "" : "0" + this.mes) + "/";
+         String var10000 = this.dia > 9 ? "" + this.dia : "0" + this.dia;
+         String var1 = var10000 + "/" + (this.mes > 9 ? "" + this.mes : "0" + this.mes) + "/";
          if (this.ano > 999) {
-            var1 = var1 + "" + this.ano;
+            var1 = var1 + this.ano;
          } else if (this.ano > 99) {
             var1 = var1 + "0" + this.ano;
          } else if (this.ano > 9) {
@@ -416,9 +353,9 @@ public class TP03Q03 {
          String var9 = var1.next().trim();
          int var10 = var9.length();
          String[] var11 = var1.next().split("-");
-         Hora var12 = TP03Q03.Hora.parseHora(var11[0]);
-         Hora var13 = TP03Q03.Hora.parseHora(var11[1]);
-         Data var14 = TP03Q03.Data.parseData(var1.next());
+         Hora var12 = TP03Q01.Hora.parseHora(var11[0]);
+         Hora var13 = TP03Q01.Hora.parseHora(var11[1]);
+         Data var14 = TP03Q01.Data.parseData(var1.next());
          boolean var15 = var1.next().trim().compareTo("true") == 0;
          var1.close();
          return new Restaurante(var2, var3, var4, var5, var6, var8, var10, var12, var13, var14, var15);
