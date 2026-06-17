@@ -1,25 +1,25 @@
 
-public class Arvore {
+public class ArvoreBicolor {
 
     No raiz;
 
-    public Arvore() {
+    public ArvoreBicolor() {
         raiz = null;
     }
 
     public void inserir(int x) {
 
-        raiz = inserir(x, null, null, null, raiz);
-        raiz.cor = false;
+        raiz = inserir(x, raiz);
+
     }
 
-    private No inserir(int x, No bisavo, No avo, No pai, No no) {
+    private No inserir(int x, No no) {
         if (no != null) {
             if (noDiferente(no.elemento, x)) {
                 if (no.elemento > x) {
-                    no.esq = inserir(x, avo, pai, no, no.esq);
+                    no.esq = inserir(x, no.esq);
                 } else {
-                    no.dir = inserir(x, avo, pai, no, no.dir);
+                    no.dir = inserir(x, no.dir);
                 }
             } else {
                 System.err.println("Elemento não foi adicionada\nNumero " + x + " ja existe na arvore");
@@ -27,11 +27,7 @@ public class Arvore {
         } else {
             no = new No(x);
         }
-        if (no != this.raiz && isNoTipo4(no)) {
-            fragmentar(no);
-        }
-        balancear(bisavo, avo, pai, no);
-        return no;
+        return balancear(no);
     }
 
     public void remover(int x) {
@@ -109,7 +105,7 @@ public class Arvore {
 
     private void caminharPreNivel(No no) {
         if (no != null) {
-            System.out.println(no.elemento + " nivel = " + no.nivel + "cor = " + no.cor + "\n");
+            System.out.println(no.elemento + " nivel = " + no.nivel + "Fator de balancemento = " + getFatorBalanceamento(no) + "\n");
             caminharPreNivel(no.esq);
             caminharPreNivel(no.dir);
         }
@@ -169,38 +165,29 @@ public class Arvore {
         return no.elemento;
     }
 
-    public void balancear(No bisavo, No avo, No pai, No no) {
-        No filho;
-        if (bisavo != null && avo != null && pai != null && no != null) {
-            if (pai.elemento > avo.elemento) {
-                if (no.elemento > pai.elemento) {
-                    filho = rotacionarEsq(avo);
-                } else {
-                    filho = rotacionarDir(avo);
-                    filho = rotacionarEsq(filho);
-                }
-            } else {
-                if (no.elemento < pai.elemento) {
-                    filho = rotacionarDir(avo);
-                } else {
-                    filho = rotacionarEsq(avo);
-                    filho = rotacionarDir(filho);
-                }
-            }
-            filho.cor = false;
-            if (filho.dir != null) {
-                filho.dir.cor = true;
-            }
-            if (filho.esq != null) {
-                filho.esq.cor = true;
-            }
+    public No balancear(No no) {
 
-            if (filho.elemento > bisavo.elemento) {
-                bisavo.esq = filho;
+        if (no != null) {
+            int fb = getFatorBalanceamento(no);
+            if (fb < -1) {
+                int fbEsq = getFatorBalanceamento(no.esq);
+                if (fbEsq == 1) {
+                    no.esq = rotacionarEsq(no.esq);
+                }
+                no = rotacionarEsq(no);
             } else {
-                bisavo.dir = filho;
+                if (fb > 1) {
+                    int fbDir = getFatorBalanceamento(no.dir);
+                    if (fbDir == -1) {
+                        no.dir = rotacionarDir(no.dir);
+                    }
+                    no = rotacionarDir(no);
+                } else {
+                    no.setNivel();
+                }
             }
         }
+        return no;
     }
 
     private No rotacionarEsq(No no) {
@@ -210,6 +197,8 @@ public class Arvore {
         noDir.esq = no;
         no.dir = noDirEsq;
 
+        no.setNivel();
+        noDir.setNivel();
         return noDir;
     }
 
@@ -220,24 +209,25 @@ public class Arvore {
         noEsq.dir = no;
         no.esq = noEsqDir;
 
+        no.setNivel();
+        noEsq.setNivel();
         return noEsq;
     }
 
-    public boolean isNoTipo4(No no) {
-        if(no.esq != null && no.dir != null){
+    private int getFatorBalanceamento(No no) {
+        if (no.esq != null) {
+            if (no.dir != null) {
 
-            if (no.esq.cor == true && no.dir.cor == true && no.cor == false ) {
-                return true;
+                return no.dir.nivel - no.esq.nivel;
+            } else {
+                return 0 - no.esq.nivel;
             }
-        }
-        return false;
-    }
-
-    private void fragmentar(No no) {
-        if (isNoTipo4(no)) {
-            no.cor = !no.cor;
-            no.esq.cor = !no.esq.cor;
-            no.dir.cor = !no.dir.cor;
+        } else {
+            if (no.dir != null) {
+                return no.dir.nivel;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -249,14 +239,12 @@ class No {
     No esq;
     No dir;
     int nivel;
-    boolean cor;
 
     No(int x) {
         elemento = x;
         esq = null;
         dir = null;
         nivel = 0;
-        cor = true;
     }
 
     public void setNivel() {

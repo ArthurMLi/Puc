@@ -8,7 +8,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         for (String linha = parseComando(sc.next()); !linha.equals("-1"); linha = parseComando(sc.next())) {
-            System.out.println("(" + linha + ")");
             lerComando(sc, linha, arvore);
         }
         sc.close();
@@ -20,10 +19,6 @@ public class Main {
                 inserir(sc.nextInt(), arvore);
             case "inserir" ->
                 inserir(sc.nextInt(), arvore);
-            case "ip" ->
-                inserirPai(sc.nextInt(), arvore);
-            case "inserirpai" ->
-                inserir(sc.nextInt(), arvore);
             case "inserirrandom" ->
                 inserirRand(sc.nextInt(),arvore);
             case "ir" ->
@@ -34,6 +29,8 @@ public class Main {
                 pesquisar(sc.nextInt(), arvore);
             case "caminharpre" ->
                 caminharPre(arvore);
+            case "caminharprenivel" ->
+                caminharPreNivel(arvore);
             case "caminharpos" ->
                 caminharPos(arvore);
             case "caminharcentral" ->
@@ -55,9 +52,7 @@ public class Main {
         arvore.inserir(x);
     }
 
-    private static void inserirPai(int x, Arvore arvore) {
-        arvore.inserirPai(x);
-    }
+
 
     private static void inserirRand(int n, Arvore arvore) {
         Random r = new Random(4);
@@ -81,6 +76,10 @@ public class Main {
 
     private static void caminharPre(Arvore arvore) {
         arvore.caminharPre();
+    }
+
+    private static void caminharPreNivel(Arvore arvore) {
+        arvore.caminharPreNivel();
     }
 
     private static void caminharPos(Arvore arvore) {
