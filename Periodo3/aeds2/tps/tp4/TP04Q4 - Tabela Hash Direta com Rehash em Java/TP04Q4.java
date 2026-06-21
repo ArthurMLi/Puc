@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TP04Q1 {
+public class TP04Q4 {
 
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
@@ -13,14 +13,13 @@ public class TP04Q1 {
             } catch (RuntimeException e) {
                 base.lerCsv("../restaurantes.csv");
             }
-
-            ArvoreAVL arvore = new ArvoreAVL();
-
+            listaHash lista = new listaHash(83);
             int id = sc.nextInt();
+
             while (id != -1) {
                 Restaurante r = base.pesquisarRestaurante(id);
-                if (r != null) {
-                    arvore.raiz = arvore.inserir(r);
+                if (r != null){
+                    lista.inserir(r);
                 }
                 id = sc.nextInt();
             }
@@ -28,12 +27,72 @@ public class TP04Q1 {
             sc.nextLine();
             String nome = sc.nextLine();
             while (!nome.equals("FIM")) {
-                System.out.println(arvore.pesquisar(nome));
+                Restaurante r = lista.pesquisar(nome);
+
+                System.out.println((r != null) ? r.formatar(): "-1");
                 nome = sc.nextLine();
             }
 
-            //arvore.mostrarInOrder();
         }
+    }
+
+    static class listaHash {
+        Restaurante lista[];
+        int tamanho;
+
+        public listaHash(int tam) {
+            lista = new Restaurante[tam];
+            tamanho = tam;
+        }
+
+        public int hash(int x) {
+            return x % tamanho;
+        }
+
+        public int rehash(int x) {
+            return (x + 1) % tamanho;
+        }
+
+        private int somarASCII(String s) {
+            int soma = 0;
+            for (int i = 0; i < s.length(); i++) {
+                soma += s.charAt(i);
+            }
+            return soma;
+        }
+
+        public boolean inserir(Restaurante r) {
+            int pos = hash(somarASCII(r.nome));
+            boolean resp = true;
+            if (lista[pos] == null) {
+                lista[pos] = r;
+            } else {
+                pos = rehash(somarASCII(r.nome));
+                if (lista[pos] == null) {
+                    lista[pos] = r;
+                } else {
+                    System.out.println(r.nome);
+                    resp = false;
+                }
+            }
+            return resp;
+        }
+
+        public Restaurante pesquisar(String s) {
+            int pos = hash(somarASCII(s));
+            Restaurante resp = null;
+
+            if (lista[pos] != null && lista[pos].nome.equals(s)) {
+                resp = lista[pos];
+            } else {
+                pos = rehash(somarASCII(s));
+                if (lista[pos] != null && lista[pos].nome.equals(s)) {
+                    resp = lista[pos];
+                }
+            }
+            return resp;
+        }
+
     }
 
     static class No {
@@ -52,171 +111,6 @@ public class TP04Q1 {
             return nivel;
         }
 
-    }
-
-    static class ArvoreAVL {
-
-        private No raiz;
-        private String caminho;
-
-        ArvoreAVL() {
-            raiz = null;
-        }
-
-        public No inserir(Restaurante r) {
-            if (raiz == null) {
-                return new No(r);
-            } else {
-                return inserir(r, raiz);
-            }
-        }
-
-        private No inserir(Restaurante r, No no) {
-            int cmp = r.nome.compareTo(no.r.nome);
-
-            if (cmp < 0) {
-                if (no.esq == null) {
-                    no.esq = new No(r);
-                } else {
-                    no.esq = inserir(r, no.esq);
-                }
-            } else if (cmp > 0) {
-                if (no.dir == null) {
-                    no.dir = new No(r);
-                } else {
-                    no.dir = inserir(r, no.dir);
-                }
-            }
-
-            return balancear(no);
-        }
-
-        String pesquisar(String nome) {
-            caminho = "raiz";
-            return pesquisar(nome, raiz);
-        }
-
-        private String pesquisar(String nome, No no) {
-            if (no == null) {
-                return caminho + " NAO";
-            }
-            int cmp = nome.compareTo(no.r.nome);
-            if (cmp < 0) {
-                caminho += " esq";
-                return pesquisar(nome, no.esq);
-            } else if (cmp > 0) {
-                caminho += " dir";
-                return pesquisar(nome, no.dir);
-            } else {
-                return caminho + " SIM";
-            }
-        }
-
-        private No balancear(No no) {
-            if (no == null) {
-                return null;
-            }
-            // 1. Atualiza a altura do nó atual
-            no.nivel = Math.max(obterAltura(no.esq), obterAltura(no.dir)) + 1;
-
-            // 2. Obtém o fator de balanceamento
-            int fb = obterFatorBalanceamento(no);
-
-            // CASO 1: Desbalanceamento à Esquerda (Pendente para a esquerda)
-            if (fb > 1) {
-                // Zigue-zague (Esquerda-Direita): precisa de rotação dupla
-                if (obterFatorBalanceamento(no.esq) < 0) {
-                    no.esq = rotacionarEsq(no.esq);
-                }
-                // Rotação simples à direita (o seu método anterior)
-                return rotacionarDir(no);
-            }
-
-            // CASO 2: Desbalanceamento à Direita (Pendente para a direita)
-            if (fb < -1) {
-                // Zigue-zague (Direita-Esquerda): precisa de rotação dupla
-                if (obterFatorBalanceamento(no.dir) > 0) {
-                    no.dir = rotacionarDir(no.dir);
-                }
-                // Rotação simples à esquerda
-                return rotacionarEsq(no);
-            }
-
-            return no; // Retorna o nó sem alterações se já estiver balanceado
-        }
-
-        private int obterAltura(No no) {
-            return no == null ? -1 : no.getNivel();
-        }
-
-        private int obterFatorBalanceamento(No no) {
-            if (no == null) {
-                return 0;
-            }
-            return obterAltura(no.esq) - obterAltura(no.dir);
-        }
-
-        private No rotacionarDir(No no) {
-            // no tem um filho a esquerda e um neto a esquerda
-            // filho deve virar raiz e o no vira filho a direita desse no
-            //sem perder os outros filhos
-            No noEsq = no.esq;
-            No noEsqDir = noEsq.dir;
-
-            no.esq = noEsqDir;
-            noEsq.dir = no;
-
-            no.nivel = Math.max(obterAltura(no.esq), obterAltura(no.dir)) + 1;
-            noEsq.nivel = Math.max(obterAltura(noEsq.esq), obterAltura(noEsq.dir)) + 1;
-
-            return noEsq;
-        }
-
-        private No rotacionarEsq(No no) {
-            // no tem um filho a direita e um neto a direita
-            // filho deve virar raiz e o no vira filho a esquerda desse no
-            //sem perder os outros filhos
-            No noDir = no.dir;
-            No noDirEsq = noDir.esq;
-
-            no.dir = noDirEsq;
-            noDir.esq = no;
-
-            no.nivel = Math.max(obterAltura(no.esq), obterAltura(no.dir)) + 1;
-            noDir.nivel = Math.max(obterAltura(noDir.esq), obterAltura(noDir.dir)) + 1;
-
-            return noDir;
-        }
-
-        int getFB(No no) {
-            int resp = 0;
-            if (no.esq != null) {
-                if (no.dir != null) {
-                    resp = no.esq.nivel - no.dir.nivel;
-                } else {
-                    resp = no.esq.nivel;
-                }
-            } else {
-                if (no.dir != null) {
-                    resp = 0 - no.dir.nivel;
-                }
-            }
-            return resp;
-
-        }
-
-        void mostrarInOrder() {
-            mostrarInOrder(raiz);
-        }
-
-        private void mostrarInOrder(No no) {
-            if (no == null) {
-                return;
-            }
-            mostrarInOrder(no.esq);
-            System.out.println(no.r.formatar());
-            mostrarInOrder(no.dir);
-        }
     }
 
     static class ColecaoRestaurantes {
@@ -327,7 +221,8 @@ public class TP04Q1 {
         }
 
         String formatar() {
-            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao + " ## [";
+            String temp = "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + avaliacao
+                    + " ## [";
 
             for (int i = 0; i < tiposCozinha.length; i++) {
                 temp += tiposCozinha[i];
