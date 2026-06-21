@@ -239,8 +239,18 @@ void setFilho(NoTrie *no, char c, NoTrie *filho) {
     NoListaTrie *novo = (NoListaTrie*)malloc(sizeof(NoListaTrie));
     novo->caracter = c;
     novo->no = filho;
-    novo->prox = no->filhos;
-    no->filhos = novo;
+    novo->prox = NULL;
+
+    // Inserir no final (mantem a ordem de criacao que eh util e previne bugs de loop/inversao)
+    if (no->filhos == NULL) {
+        no->filhos = novo;
+    } else {
+        NoListaTrie *tmp = no->filhos;
+        while (tmp->prox != NULL) {
+            tmp = tmp->prox;
+        }
+        tmp->prox = novo;
+    }
 }
 
 typedef struct {

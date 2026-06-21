@@ -219,7 +219,9 @@ Lista* novaLista() {
 
 void inserirLista(Lista *lista, Restaurante *r) {
     NoLista *tmp = lista->primeiro;
-    while (tmp->prox != NULL && strcmp(tmp->prox->r->nome, r->nome) < 0) {
+    // Evita loop infinito e compara os nomes com mais seguranca
+    while (tmp->prox != NULL) {
+        if (strcmp(tmp->prox->r->nome, r->nome) >= 0) break;
         tmp = tmp->prox;
     }
     NoLista *novo = (NoLista *)malloc(sizeof(NoLista));
