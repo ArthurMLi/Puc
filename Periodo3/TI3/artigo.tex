@@ -1,0 +1,209 @@
+\documentclass[12pt]{article}
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath}
+\sloppy
+
+\title{Análise Comparativa de Desempenho e Eficiência Energética na Resolução do Problema SAT em Arquiteturas CPU e GPU}
+
+\author{Nicolas Alexandre Torres Dias\inst{1}, Arthur Mendes Lima\inst{1}}
+
+\address{Instituto de Ciências Exatas e Informática -- Pontifícia Universidade Católica de Minas Gerais\\
+  (PUC-MG) -- Belo Horizonte -- MG -- Brasil
+  \email{nicolasbhgamer@gmail.com, arthurmendeslima9@gmail.com}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Esse artigo apresenta uma análise comparativa de desempenho e eficiência energética na resolução do Problema de Satisfatibilidade Booleana (SAT) em arquiteturas de CPU e GPU. Realizamos um levantamento de seis trabalhos de alto impacto científico (Qualis A1 e A2) e propomos uma metodologia baseada no monitoramento de potência em tempo real utilizando Intel RAPL e NVIDIA NVML, medindo o tempo de execução e o consumo de energia (Joules por instância) para benchmarks CNF industriais e aleatórios. Os resultados esperados indicam que, embora os resolvedores baseados em GPU alcancem acelerações (speedups) significativas por meio de paralelismo massivo, o custo energético por instância varia substancialmente dependendo da estrutura da fórmula, motivando uma estratégia de seleção ciente do hardware (\textit{hardware-aware}) para a resolução de SAT no contexto de \textit{Green Computing}.
+\end{abstract}
+
+\begin{resumo}
+Esse artigo apresenta uma análise comparativa de desempenho e eficiência energética na resolução do Problema de Satisfatibilidade Booleana (SAT) em arquiteturas de CPU e GPU. São examinados seis trabalhos de alto impacto científico e proposta uma metodologia baseada em perfilamento de consumo em tempo real com Intel RAPL e NVIDIA NVML, medindo tempo de execução e energia consumida (Joules/instância) em benchmarks CNF industriais e aleatórios. Os resultados demonstram que, embora solvers em GPU obtenham speedups expressivos via paralelismo massivo, o custo energético por instância varia consideravelmente conforme a estrutura da fórmula, motivando uma estratégia de seleção de hardware consciente do contexto e do custo energético.
+\end{resumo}
+
+\section{Introdução}
+
+O problema de satisfatibilidade booleana (SAT) é um dos mais importantes da ciência da computação teórica e aplicada \cite{biere:2009}. Em sua formulação básica, dada uma função lógica composta por variáveis booleanas organizadas em cláusulas, o objetivo é determinar se existe alguma atribuição de valores verdadeiro/falso a essas variáveis que torne a função verdadeira \cite{arora:2009}. O SAT foi o primeiro problema provado como NP-completo \cite{cook:1971}, o que significa que não existe nenhum algoritmo conhecido capaz de resolvê-lo em tempo polinomial, embora uma solução possa ser verificada eficientemente \cite{garey:1979}.
+
+Suas aplicações no mundo real são amplas e críticas: o SAT é utilizado em planejamento de inteligência artificial, em criptografia (análise de protocolos e quebra de cifras), na validação e verificação formal de chips de silício, na garantia de segurança de softwares críticos e na otimização de cadeias de suprimento \cite{biere:2009}. Por conta de sua importância prática, o desenvolvimento de algoritmos eficientes para resolver instâncias SAT tem sido amplamente estudado nas últimas décadas.
+
+Os melhores solvers SAT modernos utilizam o algoritmo CDCL (Conflict-Driven Clause Learning) \cite{moskewicz:2001}, uma extensão sofisticada do DPLL (Davis–Putnam–Logemann–Loveland) \cite{davis:1962}. O CDCL é, por natureza, sequencial: ele atribui valores às variáveis uma a uma, propaga as consequências dessas escolhas e, toda vez que encontra um conflito, aprende uma nova cláusula que impede revisitar aquele mesmo erro de busca, realizando backtracking não cronológico \cite{biere:2009}. Cada etapa depende do resultado anterior, o que cria uma dependência de dados inerentemente difícil de paralelizar — colocar esse algoritmo em uma GPU ou adicionar mais núcleos à CPU não traz ganhos proporcionais, pois o que faz o CDCL eficiente não é volume de cálculo, mas sim a qualidade das heurísticas de decisão e a capacidade de aprendizado por conflito \cite{hennessy:2017}.
+
+Por outro lado, a miniaturização dos transistores na CPU chegou a um ponto em que o vazamento de corrente e o calor excessivo tornaram-se problemas dominantes — o chamado \textit{Power Wall} \cite{hennessy:2017}. A partir desse limite físico, ganhar desempenho apenas na CPU ficou progressivamente mais caro em energia e mais difícil de resfriar. Ao mesmo tempo, a demanda computacional cresce de forma exponencial: modelos de IA maiores, instâncias SAT mais complexas e simulações mais densas pressionam continuamente os centros de dados, que enfrentam dois grandes obstáculos: o superaquecimento dos equipamentos e o alto custo energético operacional \cite{barroso:2018}.
+
+Diante desse cenário, pesquisadores começaram a mapear o problema SAT para GPUs, buscando explorar o paralelismo massivo dessas arquiteturas para contornar o gargalo sequencial \cite{kirk:2016}. No entanto, ao fazê-lo, ignoraram em grande medida um fator crítico: a eficiência energética. GPUs modernas de data center podem consumir até 700 Watts sob carga máxima, operando com TDP tipicamente 2 a 5 vezes superior ao da CPU \cite{mittal:2015}.
+
+Esse trabalho tem como objetivo principal não apenas descobrir qual arquitetura resolve o SAT mais rapidamente, mas realizar uma análise bivariada — \textbf{Desempenho versus Eficiência Energética} — estabelecendo a razão \textbf{Desempenho/Watt} na resolução SAT. A justificativa se baseia diretamente na sustentabilidade computacional (\textit{Green Computing}): se uma GPU reduz o tempo de execução em 5 vezes, mas consome 15 vezes mais energia que uma CPU para o mesmo problema, a eficiência líquida é negativa. A ciência carece de parâmetros precisos para determinar quando vale a pena despachar uma fórmula SAT para a GPU ou mantê-la na CPU, e este trabalho busca preencher exatamente essa lacuna, contribuindo para uma alocação inteligente de hardware em contextos industriais e de data centers.
+
+\section{Referencial Teórico}
+
+\subsection{O Problema SAT e a Forma Normal Conjuntiva}
+
+Uma instância SAT é representada por uma fórmula proposicional na Forma Normal Conjuntiva (CNF), estruturada como uma conjunção de disjunções: a fórmula é um \textit{and} de cláusulas, onde cada cláusula é um \textit{or} de literais \cite{biere:2009}. O objetivo é determinar se existe uma atribuição de valores verdadeiro/falso às variáveis que satisfaça todas as cláusulas simultaneamente. Instâncias industriais, como as geradas na verificação formal de circuitos digitais, tendem a ter estrutura esparsa e altamente correlacionada, com acessos de memória irregulares e fluxo de controle imprevisível. Instâncias aleatórias do tipo 3-SAT próximas à razão cláusulas/variáveis $\alpha \approx 4{,}27$ situam-se na chamada \textit{região de fase crítica} e são, em média, as mais difíceis de resolver.
+A Região da Fase Crítica para instâncias aleatórias de 3-SAT aproxima-se de 4,267, ocorre uma "transição de fase" abrupta, que pé quando abaixo dessa razão (\(\alpha < 4,27\)), a maioria das instâncias é satisfatível (SAT). Acima dessa razão (\(\alpha > 4,27\)), a maioria é insatisfatível (UNSAT). \cite{garey:1979}.
+
+\subsection{Arquitetura CPU: Força em Controle de Fluxo}
+
+A CPU é projetada para execução sequencial de alta performance: poucos núcleos poderosos, \textit{caches} hierárquicas profundas, execução especulativa e, sobretudo, \textit{Branch Predictors} sofisticados garantem baixa latência mesmo em fluxos de controle complexos e imprevisíveis \cite{hennessy:2017}. Esses recursos são essenciais para lidar com os cálculos de decisão imprevisíveis do algoritmo CDCL, que precisa constantemente escolher variáveis, propagar implicações e realizar backtracking. Nesse tipo de carga de trabalho altamente irregular, a CPU possui vantagem estrutural clara sobre a GPU. Contudo, o \textit{Power Wall} impõe um limite físico ao ganho de desempenho alcançável apenas com aumento de clock ou adição de núcleos \cite{hennessy:2017}.
+
+\subsection{Arquitetura GPU: Força em Paralelismo Regular}
+
+A GPU segue o modelo SIMT (\textit{Single Instruction, Multiple Threads}), executando milhares de ALUs (Unidades Lógico-Aritméticas) simultaneamente, mas exigindo que todas as \textit{threads} de um mesmo \textit{warp} executem a mesma instrução ao mesmo tempo \cite{kirk:2016}. Isso garante altíssimo \textit{throughput} para tarefas vetoriais e regularmente paralelas. Contudo, árvores de busca SAT geram alta divergência de \textit{threads} — cada \textit{thread} pode seguir um caminho completamente diferente da árvore de decisão —, o que subutiliza severamente o hardware gráfico, pois \textit{threads} que divergem ficam ociosas enquanto aguardam as outras \cite{kirk:2016}. Entender esse atrito entre o algoritmo SAT e a arquitetura GPU é a base para a análise de desempenho e consumo deste trabalho.
+
+\subsection{Métricas de Avaliação}
+
+As principais métricas utilizadas neste estudo são:
+
+\begin{itemize}
+  \item \textbf{Speedup}: ganho de tempo relativo entre arquiteturas, $S = T_{CPU} / T_{GPU}$;
+  \item \textbf{Consumo energético}: medido em Watts (potência instantânea) e Joules (energia total por instância), obtidos via perfilamento em tempo real;
+  \item \textbf{Eficiência energética}: razão Desempenho/Watt, definida como $\eta = S \;/\; (E_{GPU} / E_{CPU})$, quantificando o ganho de velocidade por unidade de energia adicional consumida pela GPU.
+\end{itemize}
+
+%revisa aqui arthur
+%-----------------------------------------------------------------------
+\section{Trabalhos Relacionados}
+
+
+Seis trabalhos de alto impacto científico (Qualis A1 e A2) foram selecionados para embasar este estudo, cobrindo abordagens de paralelização, inprocessing, model checking, eficiência energética e seleção automática de algoritmos.
+
+\subsection{FastFourierSAT — AAAI-25 (Qualis A1)}
+
+O FastFourierSAT \cite{fastfouriersat:2025} aborda um dos problemas clássicos da paralelização do SAT: o CDCL é sequencial e inerentemente difícil de mapear para a GPU. A alternativa explorada é a \textit{Busca Local Contínua} (CLS), que é fundamentalmente mais paralelizável. Ao modelar o cálculo dos gradientes SAT usando álgebra linear — representando as variáveis booleanas como valores reais em um espaço contínuo e retornando ao domínio booleano por arredondamento —, o código passa a executar diretamente sobre a arquitetura matricial da GPU, desbloqueando uma performance expressiva, com speedups reportados na casa de 100 vezes em certas classes de instâncias.
+
+É importante contextualizar essa vantagem: os speedups são válidos primariamente para instâncias descritas em Restrições Aritméticas, onde a matemática pesada favorece a GPU. Para instâncias descritas em CNF pura — baseadas em lógica e busca —, o FastFourierSAT perde para o CDCL clássico, pois sua abordagem contínua funciona melhor como força bruta de cálculo do que como busca inteligente com aprendizado de cláusulas. Adicionalmente, o trabalho não quantifica o custo energético associado aos speedups reportados, lacuna que o presente estudo busca preencher diretamente.
+
+\subsection{ParaFrost: GPU Accelerated Inprocessing — TACAS 2021 (Qualis A2)}
+
+O artigo da TACAS 2021 introduz o conceito de \textit{GPU Accelerated Inprocessing} implementado no solver ParaFrost \cite{parafrost:tacas:2021}. Em vez de tentar resolver o SAT inteiramente na GPU, a abordagem é mais sutil: a GPU é utilizada para simplificar a fórmula CNF \textit{dinamicamente durante a busca}, removendo variáveis redundantes em paralelo enquanto o CDCL avança na CPU. Trata-se de uma tentativa de paralelizar o processo de simplificação contínua de fórmulas lógicas (inprocessing) integrado a solvers com arquitetura de GPU.
+
+Para contornar o limite de memória de vídeo (VRAM) das GPUs — um gargalo crítico em fórmulas industriais de grande porte —, os pesquisadores desenvolveram estruturas de dados simplificadas e um \textit{garbage collector} paralelo extremamente eficiente, executado diretamente na GPU para limpar cláusulas inúteis em tempo real. Além disso, foi implementada uma técnica inédita de Eliminação de Redundância que remove variáveis durante a busca, tornando o solver até duas vezes mais rápido que equivalentes puramente em CPU. A principal contribuição conceitual deste trabalho para a nossa pesquisa é demonstrar que o papel da GPU pode ser o de \textbf{co-processador auxiliar} de simplificação, e não de resolvedor integral.
+
+\subsection{ParaFrost em Bounded Model Checking — CAV 2021 (Qualis A1)}
+
+O artigo do CAV 2021 aplica o ParaFrost ao contexto de \textit{Bounded Model Checking} (BMC) \cite{parafrost:cav:2021}. No BMC, sistemas de transição de hardware são desenrolados no tempo, gerando fórmulas SAT massivamente redundantes e de tamanho colossal — exatamente o tipo de instância em que a simplificação paralela da GPU pode ser mais vantajosa.
+
+A abordagem mantém o núcleo CDCL na CPU, mas descarrega a simplificação inicial e recorrente da fórmula para a GPU, reduzindo drasticamente o espaço de busca que a CPU enfrentará na etapa de resolução. Os autores detalham o design de memória criado especificamente para lidar com as fórmulas gigantes e redundantes comuns em contextos de BMC, demonstrando que a arquitetura heterogênea CPU-GPU pode superar solvers puramente sequenciais na verificação formal de hardware. Este trabalho define um \textbf{cenário híbrido crucial} para os nossos experimentos: medir a energia de um solver puramente em CPU versus um pipeline híbrido CPU-GPU será um dos grandes diferenciais empíricos desta pesquisa.
+
+\subsection{Survey sobre Eficiência Energética em GPUs — ACM Computing Surveys (Qualis A1)}
+
+O survey de \cite{mittal:2015} apresenta uma taxonomia abrangente das técnicas documentadas para melhorar a eficiência energética em GPUs, incluindo DVFS (\textit{Dynamic Voltage and Frequency Scaling}), gerenciamento avançado de memória, escalonamento de \textit{threads} e técnicas de \textit{power gating}. O trabalho cataloga e compara essas abordagens com outras arquiteturas de hardware, chegando à conclusão de que a GPU pode ser mais eficiente energeticamente do que a CPU em determinadas cargas de trabalho, mas ainda perde em eficiência para arquiteturas especializadas como FPGAs em muitas aplicações.
+
+Uma contribuição particularmente relevante para este trabalho é a evidência de que o consumo energético da GPU oscila significativamente conforme o padrão de acesso das \textit{threads} à VRAM e conforme o grau de divergência de fluxo de controle, reforçando a necessidade de perfilamento em tempo real — e não apenas medições estáticas de TDP — para avaliações precisas de eficiência em cargas de trabalho irregulares como o SAT.
+
+\subsection{SATzilla — JAIR (Qualis A1)}
+
+O SATzilla \cite{satzilla:2008} parte de uma premissa que nenhum SAT solver é o melhor para todos os tipos de instâncias. Diante disso, o trabalho transforma a seleção de algoritmos SAT em um problema de aprendizado de máquina: modelos são treinados com \textit{features} estruturais extraídas automaticamente das fórmulas CNF (como razão cláusulas/variáveis, coeficiente de agrupamento do grafo de vizinhança, entre outras) para prever qual o melhor solver a ser empregado em cada instância específica.
+
+O SATzilla demonstra que a estrutura da instância é o principal determinante do melhor algoritmo a ser empregado, superando qualquer solver individual em competições de SAT. Este princípio é estendido neste trabalho para a dimensão do hardware: assim como a estrutura da fórmula dita o melhor solver, ela pode também indicar a arquitetura mais eficiente — CPU ou GPU. Uma contribuição futura natural deste trabalho é a construção de um classificador análogo ao SATzilla, mas orientado à alocação energeticamente eficiente de hardware.
+
+\subsection{CUD@SAT — JETAI (Qualis A2)}
+
+O CUD@SAT \cite{cudaatsat:2013} investiga como executar o SAT diretamente na GPU usando CUDA. O desafio central é que o SAT possui busca irregular com ramificações — o oposto exato do tipo de carga de trabalho para o qual a GPU foi projetada. A solução proposta foi dividir o algoritmo DPLL em duas partes paralelizáveis: (1) a \textit{Unit Propagation}, que processa blocos de cláusulas simultaneamente na GPU, e (2) a exploração da árvore de busca, distribuída entre múltiplas \textit{threads} de forma a maximizar a cobertura do espaço de busca.
+
+Os resultados chegam a speedups de até 92 vezes em instâncias com elevado número de cláusulas unitárias, onde a propagação paralela é diretamente eficaz. No entanto, o solver apresenta degradação de desempenho em instâncias com forte dependência entre cláusulas, ilustrando as limitações fundamentais do paralelismo massivo frente à alta divergência de controle gerada pelo DPLL. O CUD@SAT é um caso concreto e bem documentado das tensões entre o algoritmo e o hardware, tornando-o uma referência central para a análise comparativa deste trabalho.
+
+\section{Síntese Crítica da Literatura}
+
+A revisão dos seis trabalhos acima revela uma \textbf{lacuna sistemática} na literatura: há um esforço enorme para paralelizar o SAT e obter speedups brutos, mas uma negligência quase total sobre o custo energético associado a esses speedups em arquiteturas heterogêneas. A eficiência energética foi deixada como preocupação secundária nos trabalhos que abordam GPU SAT solving, quando hoje ela é o \textbf{fator limitante} na engenharia de data centers modernos \cite{barroso:2018}.
+
+Nenhum dos trabalhos revisados realiza o perfilamento de energia em tempo real para calcular a integral de potência por instância resolvida. Os speedups são reportados em termos de tempo de execução, mas sem a contrapartida da energia consumida. Isso impede qualquer conclusão sobre quando, do ponto de vista energético, vale a pena despachar uma fórmula SAT para a GPU \cite{mittal:2015}. Esta pesquisa ataca diretamente essa lacuna.
+
+\section{Metodologia}
+
+\subsection{Visão Geral}
+A metodologia proposta para esta pesquisa é dividida em duas macrofases fundamentais. A primeira consiste em um levantamento bibliográfico sistemático estruturado para mapear o estado da arte e identificar lacunas de pesquisa. A segunda fase compreende o \textit{setup} do experimento prático, desenhado para isolar e mensurar o impacto da arquitetura (CPU vs.\ GPU) sobre o desempenho e o consumo energético na resolução do problema SAT.
+
+\subsection{Levantamento Bibliográfico e Definição do Escopo}
+A estruturação teórica do trabalho seguiu um fluxo rigoroso, conforme ilustrado na Figura~\ref{fig:fluxo_levantamento}. O processo iniciou-se pela definição do tema e das palavras-chave centrais da pesquisa: \textit{SAT, CPU, GPU e Energia}. A partir desses termos, realizou-se uma busca direcionada em bases de dados científicas.
+
+Para garantir a relevância e a robustez da revisão, aplicou-se um filtro de qualidade aos resultados obtidos. Trabalhos fora do escopo direto ou de baixo impacto foram descartados. O critério de seleção priorizou artigos de alto impacto classificados no estrato Qualis A1 e A2, resultando na seleção de 6 trabalhos base.
+
+A partir desses trabalhos, foi realizada uma extração de dados focada em três pilares analíticos: a abordagem utilizada, a arquitetura avaliada e o \textit{speedup} reportado. A síntese crítica dessa literatura culminou no objetivo central do trabalho: a identificação da lacuna metodológica referente à avaliação direta de eficiência energética.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{levantamento.pdf}
+    \caption{Fluxograma do processo de levantamento bibliográfico e identificação da lacuna.}
+    \label{fig:fluxo_levantamento}
+\end{figure}
+
+\subsection{Setup do Experimento e Seleção de Benchmarks}
+O pipeline prático do experimento segue o fluxo detalhado na Figura~\ref{fig:fluxo_metodologia}. Para a etapa experimental, serão utilizadas instâncias CNF provenientes do repositório oficial da SAT Competition, divididas em duas categorias principais de \textit{benchmarks}:
+
+\begin{itemize}
+    \item \textbf{Instâncias Industriais}: instâncias geradas por verificadores formais de circuitos digitais, com estrutura esparsa e altamente correlacionada, típicas de aplicações reais em verificação de \textit{hardware};
+    \item \textbf{Instâncias Aleatórias / 3-SAT}: instâncias geradas uniformemente em diferentes razões cláusulas/variáveis, incluindo a região de fase crítica ($\alpha \approx 4{,}27$), onde a dificuldade média é máxima \cite{garey:1979}.
+\end{itemize}
+
+O conjunto abrange tamanhos variados (de 100 a 10.000 variáveis) para análise de escalabilidade em ambas as arquiteturas.
+
+\subsection{Configuração de Hardware e Ambiente Experimental}
+Os experimentos serão executados em uma máquina com processador Intel Core de 8ª geração ou superior (com suporte nativo ao Intel RAPL), GPU NVIDIA série GTX/RTX com suporte a CUDA 11+, 32\,GB de RAM DDR4 e sistema operacional Linux. A utilização do OS Linux é uma configuração crítica da metodologia para garantir o acesso de baixo nível aos sensores das interfaces RAPL e NVML, evitando camadas de virtualização que introduziriam ruído nas medições de energia.
+
+\subsection{Execução dos Solvers Avaliados}
+Após a configuração do ambiente, a execução é ramificada para avaliar quatro configurações de \textit{solvers} de forma comparativa:
+\begin{enumerate}
+    \item \textbf{MiniSAT} — referência em CPU, baseado no algoritmo CDCL clássico \cite{moskewicz:2001};
+    \item \textbf{Glucose} — referência avançada em CPU, também baseado em CDCL, mas incorporando a heurística LBD (\textit{Literal Block Distance});
+    \item \textbf{ParaFrost} — \textit{solver} em GPU focado em \textit{inprocessing} paralelo via CUDA \cite{parafrost:tacas:2021};
+    \item \textbf{CUD@SAT} — \textit{solver} em GPU implementando o algoritmo DPLL paralelo via CUDA \cite{cudaatsat:2013}.
+\end{enumerate}
+
+\subsection{Perfilamento de Energia e Coleta de Dados}
+O perfilamento de energia ocorrerá simultaneamente à execução dos \textit{solvers}, atuando em tempo real através de duas ferramentas de monitoramento de hardware:
+\begin{itemize}
+    \item \textbf{Monitoramento CPU (Intel RAPL)}: mede o consumo nos domínios de energia do processador (pacote, núcleos e DRAM), fornecendo leituras de potência integradas diretamente nos contadores de \textit{hardware};
+    \item \textbf{Monitoramento GPU (NVIDIA NVML)}: realiza amostragens da potência da placa de vídeo a cada 100\,ms durante toda a execução.
+\end{itemize}
+
+Para assegurar a validade e a robustez dos resultados, o fluxo de coleta de dados exige que cada instância seja executada com 5 repetições, mitigando assim variações sistêmicas como ruído térmico ou interrupções de escalonamento do sistema operacional.
+
+A energia total consumida por instância é obtida por meio do cálculo da integral da potência ao longo do tempo de execução:
+\begin{equation}
+E = \int_{0}^{T} P(t)\, dt \approx \sum_{i} P_i \cdot \Delta t
+\end{equation}
+onde $P_i$ é a potência amostrada no intervalo $i$ e $\Delta t = 100\,\text{ms}$. Essa abordagem converte as leituras para o total de Joules gastos por instância resolvida.
+
+\subsection{Análise Estatística e Resultados}
+Com os dados de consumo (Joules) e desempenho coletados, procede-se à análise estatística. As métricas finais de cada instância são sumarizadas pela mediana e pelo intervalo interquartil (IQR). O \textit{speedup} da GPU em relação à CPU é calculado como $S = T_{CPU\_melhor} / T_{GPU}$.
+
+A etapa final do \textit{pipeline} metodológico é o cálculo da Eficiência Energética (Desempenho / Watt), definida pela razão entre o ganho de velocidade e o custo energético:
+\begin{equation}
+\eta = \frac{S}{E_{GPU} / E_{CPU}}
+\end{equation}
+Valores de $\eta > 1$ indicam que o ganho de desempenho compensa o gasto energético da GPU, enquanto $\eta < 1$ revela que a aceleração por \textit{hardware} é energeticamente ineficiente para aquela classe específica de problema. Este fluxo experimental e analítico culmina na geração dos resultados e na análise comparativa final.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.1\textwidth]{metodologia.pdf}
+    \caption{Fluxograma detalhado do pipeline experimental, perfilamento e análise de eficiência.}
+    \label{fig:fluxo_metodologia}
+\end{figure}
+
+\section{Resultados Esperados}
+
+Espera-se que os experimentos evidenciem uma clara dicotomia entre desempenho absoluto e eficiência energética na resolução do Problema de Satisfatibilidade Booleana (SAT). Através da aplicação da metodologia de perfilamento em tempo real, projeta-se confirmar que os \textit{solvers} baseados em GPU alcançam \textit{speedups} expressivos em instâncias caracterizadas por paralelismo massivo e regular, sobretudo em cenários com alta taxa de propagação unitária. Em contrapartida, as arquiteturas de CPU devem manter a superioridade em instâncias com estruturas de dependência complexas e imprevisíveis, em que a latência e o poder de \textit{branch prediction} são determinantes. O principal resultado tangível esperado é a formulação da métrica Desempenho/Watt para cada arquitetura, permitindo uma análise granular do custo-benefício computacional.
+
+Para ilustrar a aplicação da metodologia proposta, considere um exemplo prático sintético: a submissão de uma mesma instância industrial complexa de 5.000 variáveis a ambos os \textit{solvers}. Durante a execução, o Intel RAPL registra que a CPU concluiu a tarefa em 50 segundos com um consumo de 50 Watts (totalizando 2.500 Joules). Simultaneamente, o NVML registra que a GPU finalizou o processo em 15 segundos, mas demandou 250 Watts sob carga máxima (consumindo 3.750 Joules). Inicialmente, extrai-se a conclusão de que, embora a GPU tenha proporcionado um \textit{speedup} de aproximadamente 3,3 vezes no tempo de resolução, o custo energético por instância foi 50\% superior ao da CPU.
+
+Esse tipo de resultado inicial, generalizado para conjuntos amplos de \textit{benchmarks}, permitirá mapear as características estruturais que tornam uma instância viável ou inviável do ponto de vista de eficiência em uma arquitetura específica. O mapeamento sistemático dessas fronteiras de eficiência fornecerá uma base quantitativa essencial para o embasamento teórico da adoção de abordagens \textit{hardware-aware} e da proposição de métricas sólidas dentro do escopo do paradigma de \textit{Green Computing}.
+
+\section{Conclusão}
+
+O presente projeto de pesquisa endereça um desafio de otimização de infraestruturas computacionais e visa preencher uma lacuna metodológica substancial na literatura de verificação de \textit{hardware} e \textit{solvers} lógicos. A pesquisa propõe mensurar e avaliar o balanço entre desempenho e eficiência energética ao processar algoritmos do Problema SAT em arquiteturas diametralmente distintas: CPU e GPU. O impacto potencial reside na desconstrução da premissa de que o tempo de execução é o único vetor de performance aceitável; ao evidenciar métricas em consumo por instância (Desempenho/Watt), o trabalho colabora com a sustentabilidade de operações computacionais de alto desempenho e viabiliza um controle direcionado e econômico para os \textit{data centers}.
+
+Como trabalhos futuros fundamentais para a solidificação deste estudo e viabilizados pelos métodos aqui propostos, planeja-se a execução ampla dos experimentos em diversos repositórios canônicos e a catalogação dos cenários. Uma vez com os dados em mãos, a evolução lógica consistirá no treinamento de um modelo preditivo baseado em técnicas de aprendizado de máquina. Esse classificador poderá, ao analisar preditivamente \textit{features} estruturais da fórmula na entrada, definir antecipadamente qual arquitetura processadora proporcionará o processamento mais eficiente, garantindo um escalonamento seletivo com menor custo energético sem sacrificar \textit{speedups}.
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+
+
+\end{document}
